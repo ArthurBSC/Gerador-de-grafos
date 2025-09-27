@@ -141,9 +141,9 @@ if (app()->environment(['local', 'development'])) {
     });
 }
 
-// Rota root - redireciona para a aplicação principal
+// Rota root - mostra a página de login diretamente
 Route::get('/', function () {
-    return redirect()->route('grafos.index');
+    return view('welcome');
 });
 
 // Fallback otimizado
