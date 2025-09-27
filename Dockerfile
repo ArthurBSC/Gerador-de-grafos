@@ -68,8 +68,19 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'apache2-foreground' >> /start.sh \
     && chmod +x /start.sh
 
-# Expose port 80
-EXPOSE 80
+# Configure Apache for Railway
+RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
+RUN echo 'Listen $PORT' >> /etc/apache2/ports.conf
+RUN echo '<VirtualHost *:$PORT>' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    DocumentRoot /var/www/html/public' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    <Directory /var/www/html/public>' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '        AllowOverride All' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '        Require all granted' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    </Directory>' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '</VirtualHost>' >> /etc/apache2/sites-available/000-default.conf
+
+# Expose port from Railway
+EXPOSE $PORT
 
 # Start Apache
 CMD ["/start.sh"]
