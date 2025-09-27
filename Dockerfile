@@ -1,8 +1,5 @@
-# Use PHP 8.1 with Apache (melhor para .htaccess)
-FROM php:8.1-apache
-
-# Verify PHP version
-RUN php --version
+# Use PHP 8.1 with Nginx (mais estável para Railway)
+FROM php:8.1-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -15,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     sqlite3 \
     libsqlite3-dev \
+    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -48,11 +46,26 @@ RUN mkdir -p /var/www/html/storage/logs \
 # Create SQLite database if it doesn't exist
 RUN touch database/database.sqlite
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Configure Apache for Railway
-RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
+# Configure Nginx
+RUN echo 'server {' > /etc/nginx/sites-available/default \
+    && echo '    listen $PORT;' >> /etc/nginx/sites-available/default \
+    && echo '    server_name localhost;' >> /etc/nginx/sites-available/default \
+    && echo '    root /var/www/html/public;' >> /etc/nginx/sites-available/default \
+    && echo '    index index.php;' >> /etc/nginx/sites-available/default \
+    && echo '    location / {' >> /etc/nginx/sites-available/default \
+    && echo '        try_files $uri $uri/ /index.php?$query_string;' >> /etc/nginx/sites-available/default \
+    && echo '    }' >> /etc/nginx/sites-available/default \
+    && echo '    location ~ \.php$ {' >> /etc/nginx/sites-available/default \
+    && echo '        fastcgi_pass 127.0.0.1:9000;' >> /etc/nginx/sites-available/default \
+    && echo '        fastcgi_index index.php;' >> /etc/nginx/sites-available/default \
+    && echo '        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;' >> /etc/nginx/sites-available/default \
+    && echo '        include fastcgi_params;' >> /etc/nginx/sites-available/default \
+    && echo '    }' >> /etc/nginx/sites-available/default \
+    && echo '    location ~ \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {' >> /etc/nginx/sites-available/default \
+    && echo '        expires 1y;' >> /etc/nginx/sites-available/default \
+    && echo '        add_header Cache-Control "public, immutable";' >> /etc/nginx/sites-available/default \
+    && echo '    }' >> /etc/nginx/sites-available/default \
+    && echo '}' >> /etc/nginx/sites-available/default
 
 # Create startup script
 RUN echo '#!/bin/bash' > /start.sh \
@@ -67,24 +80,17 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'echo "=== CACHEANDO CONFIGURAÇÕES ==="' >> /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
-    && echo 'php artisan view:cache' >> /start.sh \
-    && echo 'echo "=== CONFIGURANDO APACHE ==="' >> /start.sh \
-    && echo 'echo "Listen $PORT" >> /etc/apache2/ports.conf' >> /start.sh \
-    && echo 'echo "<VirtualHost *:$PORT>" > /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "    DocumentRoot /var/www/html/public" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "    <Directory /var/www/html/public>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "        AllowOverride All" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "        Require all granted" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "    </Directory>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "=== INICIANDO APACHE ==="' >> /start.sh \
-    && echo 'apache2-foreground' >> /start.sh \
+    && echo 'echo "=== CONFIGURANDO NGINX ==="' >> /start.sh \
+    && echo 'sed -i "s/\$PORT/$PORT/g" /etc/nginx/sites-available/default' >> /start.sh \
+    && echo 'echo "=== INICIANDO SERVIÇOS ==="' >> /start.sh \
+    && echo 'php-fpm -D' >> /start.sh \
+    && echo 'nginx -g "daemon off;"' >> /start.sh \
     && chmod +x /start.sh
 
 # Expose port from Railway
 EXPOSE $PORT
 
-# Start Apache
+# Start services
 CMD ["/start.sh"]
 
 # Railway Deploy - Force Cache Invalidation
