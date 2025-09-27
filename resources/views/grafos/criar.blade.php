@@ -646,8 +646,21 @@
             const quantidade = parseInt(document.getElementById('quantidade_nos').value);
             const container = document.getElementById('containerNos');
             
+            // Validar quantidade
+            if (quantidade < 2) {
+                alert('❌ Mínimo de 2 nós necessário!');
+                document.getElementById('quantidade_nos').value = 2;
+                return;
+            }
+            
+            if (quantidade > 26) {
+                alert('❌ Máximo de 26 nós (A-Z) permitido!');
+                document.getElementById('quantidade_nos').value = 26;
+                return;
+            }
+            
             // Limpar campos existentes
-    container.innerHTML = '';
+            container.innerHTML = '';
             
             console.log('🔄 Atualizando nós para quantidade:', quantidade);
             
