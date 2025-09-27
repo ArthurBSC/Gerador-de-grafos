@@ -1,25 +1,25 @@
-# 🏗️ MEMBRO 3: Arquitetura e Estrutura do Sistema
+# 🏗️ MEMBRO 3: Arquitetura e Estrutura - Pablo
 
-## 🎯 **SUA RESPONSABILIDADE**
-Você é responsável por explicar a **arquitetura do sistema**, **padrões de design** e **aspectos técnicos** da implementação.
+## 🎯 **MINHA RESPONSABILIDADE**
+Sou responsável por explicar como **organizamos nosso código** e por que escolhemos essa estrutura.
 
 **⏱️ Tempo**: 7 minutos  
-**🎯 Foco**: Arquitetura MVC, padrões SOLID, qualidade do código
+**🎯 Foco**: Como organizamos o código e por que funciona bem
 
 ---
 
 ## 📋 **ROTEIRO DE APRESENTAÇÃO**
 
-### **🎬 1. INTRODUÇÃO À ARQUITETURA (1 minuto)**
+### **🎬 1. COMO ORGANIZAMOS NOSSO CÓDIGO (1 minuto)**
 
 #### **O que falar:**
-> "O sistema foi desenvolvido seguindo os princípios SOLID e padrões de design robustos para garantir manutenibilidade, escalabilidade e qualidade do código."
+> "Vou explicar como organizamos nosso código para que seja fácil de entender, manter e expandir. Seguimos boas práticas de programação."
 
-#### **Características principais:**
-- **Arquitetura MVC**: Separação clara de responsabilidades
-- **Service Layer**: Lógica de negócio isolada
-- **Dependency Injection**: Baixo acoplamento
-- **Clean Code**: Código limpo e bem documentado
+#### **Nossos princípios:**
+- **Separação clara**: Cada parte tem sua responsabilidade
+- **Código organizado**: Lógica separada por funcionalidade
+- **Fácil manutenção**: Mudanças não quebram outras partes
+- **Código limpo**: Bem documentado e fácil de ler
 
 ---
 

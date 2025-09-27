@@ -1,40 +1,40 @@
-# 👥 Coordenação do Grupo - Apresentação Sistema Gerador de Grafos
+# 👥 Coordenação do Grupo - Arthur, Vitor e Pablo
 
-## 🎯 **VISÃO GERAL DA APRESENTAÇÃO**
+## 🎯 **NOSSA APRESENTAÇÃO**
 
 **⏱️ Tempo total**: 20 minutos  
-**👥 Membros**: 3 pessoas  
-**🎯 Objetivo**: Demonstrar conhecimento técnico e acadêmico sobre o algoritmo Dijkstra
+**👥 Membros**: Arthur, Vitor e Pablo  
+**🎯 Objetivo**: Mostrar nosso Sistema Gerador de Grafos e explicar o algoritmo Dijkstra
 
 ---
 
 ## 📋 **DIVISÃO DE RESPONSABILIDADES**
 
-### **🔍 MEMBRO 1: Algoritmo Dijkstra (7 min)**
+### **🔍 ARTHUR: Algoritmo Dijkstra (7 min)**
 - **Documento**: `MEMBRO1_DIJKSTRA.md`
-- **Foco**: Conceitos teóricos, implementação e complexidade
+- **Foco**: Como funciona o algoritmo e nossa implementação
 - **Responsabilidades**:
-  - Explicar o algoritmo de Dijkstra
-  - Mostrar implementação no código
-  - Demonstrar complexidade e otimizações
-  - Responder perguntas técnicas
+  - Explicar o algoritmo de forma simples
+  - Mostrar nosso código
+  - Demonstrar como é eficiente
+  - Responder perguntas sobre o algoritmo
 
-### **🎨 MEMBRO 2: Interface e Visualização (7 min)**
+### **🎨 VITOR: Interface e Visualização (7 min)**
 - **Documento**: `MEMBRO2_INTERFACE.md`
-- **Foco**: Demonstração prática e experiência do usuário
+- **Foco**: Mostrar como o sistema funciona na prática
 - **Responsabilidades**:
   - Demonstrar criação de grafos
   - Mostrar visualização interativa
-  - Explicar cálculo de caminhos mínimos
-  - Demonstrar funcionalidades da interface
+  - Explicar cálculo de caminhos
+  - Mostrar como é fácil de usar
 
-### **🏗️ MEMBRO 3: Arquitetura e Estrutura (7 min)**
+### **🏗️ PABLO: Arquitetura e Estrutura (7 min)**
 - **Documento**: `MEMBRO3_ARQUITETURA.md`
-- **Foco**: Arquitetura, padrões de design e qualidade
+- **Foco**: Como organizamos nosso código
 - **Responsabilidades**:
-  - Explicar arquitetura MVC
-  - Mostrar estrutura de código
-  - Explicar padrões SOLID
+  - Explicar nossa organização
+  - Mostrar estrutura do código
+  - Explicar boas práticas
   - Demonstrar qualidade do código
 
 ---
@@ -42,58 +42,58 @@
 ## 🎬 **ROTEIRO COMPLETO (20 minutos)**
 
 ### **🎯 1. INTRODUÇÃO GERAL (2 minutos)**
-**Responsável**: Qualquer membro (preferencialmente líder do grupo)
+**Responsável**: Qualquer um de nós (preferencialmente Arthur)
 
 #### **O que falar:**
-> "Boa tarde, professora! Somos o grupo [NOME DO GRUPO] e apresentamos o **Sistema Gerador de Grafos**, uma aplicação web desenvolvida em Laravel que implementa o algoritmo de Dijkstra para cálculo de caminhos mínimos em grafos."
+> "Boa tarde, professora! Somos Arthur, Vitor e Pablo e vamos apresentar nosso **Sistema Gerador de Grafos**. Criamos uma aplicação web que implementa o algoritmo de Dijkstra para encontrar o caminho mais curto entre pontos em um grafo."
 
 #### **Pontos-chave:**
-- **Objetivo**: Sistema educacional para visualização e análise de grafos
-- **Tecnologia**: Laravel 9 + PHP 8.1 + SQLite + JavaScript
-- **Algoritmo principal**: Dijkstra implementado de forma pura
-- **Interface**: Moderna, responsiva e intuitiva
+- **Nosso objetivo**: Sistema educacional para visualizar e analisar grafos
+- **Tecnologias**: Laravel, PHP, JavaScript
+- **Algoritmo principal**: Dijkstra que implementamos do zero
+- **Interface**: Simples, bonita e fácil de usar
 
 ---
 
 ### **🔍 2. ALGORITMO DIJKSTRA (7 minutos)**
-**Responsável**: MEMBRO 1
+**Responsável**: Arthur
 
 #### **Conteúdo:**
-- Conceitos teóricos do algoritmo
-- Implementação no código
-- Complexidade e otimizações
+- Como funciona o algoritmo
+- Nossa implementação
+- Por que é eficiente
 - Exemplo prático
 
 #### **Transição:**
-> "Agora vamos ver como esse algoritmo funciona na prática através da interface do sistema."
+> "Agora o Vitor vai mostrar como esse algoritmo funciona na prática através da nossa interface."
 
 ---
 
 ### **🎨 3. INTERFACE E VISUALIZAÇÃO (7 minutos)**
-**Responsável**: MEMBRO 2
+**Responsável**: Vitor
 
 #### **Conteúdo:**
-- Demonstração de criação de grafos
+- Como criar grafos
 - Visualização interativa
-- Cálculo de caminhos mínimos
-- Funcionalidades da interface
+- Cálculo de caminhos
+- Como é fácil de usar
 
 #### **Transição:**
-> "Por trás dessa interface moderna, há uma arquitetura sólida que garante qualidade e manutenibilidade."
+> "Por trás dessa interface bonita, o Pablo vai explicar como organizamos nosso código."
 
 ---
 
 ### **🏗️ 4. ARQUITETURA E ESTRUTURA (7 minutos)**
-**Responsável**: MEMBRO 3
+**Responsável**: Pablo
 
 #### **Conteúdo:**
-- Arquitetura MVC
-- Padrões SOLID
+- Como organizamos o código
+- Boas práticas que seguimos
 - Qualidade do código
 - Estrutura organizacional
 
 #### **Transição:**
-> "Agora vamos para as perguntas e conclusão da apresentação."
+> "Agora vamos para as perguntas e conclusão da nossa apresentação."
 
 ---
 

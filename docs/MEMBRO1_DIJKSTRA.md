@@ -1,10 +1,10 @@
-# 🔍 MEMBRO 1: Algoritmo Dijkstra e Implementação Técnica
+# 🔍 MEMBRO 1: Algoritmo Dijkstra - Arthur
 
-## 🎯 **SUA RESPONSABILIDADE**
-Você é responsável por explicar o **algoritmo de Dijkstra** em detalhes técnicos e acadêmicos.
+## 🎯 **MINHA RESPONSABILIDADE**
+Sou responsável por explicar o **algoritmo de Dijkstra** de forma clara e didática.
 
 **⏱️ Tempo**: 7 minutos  
-**🎯 Foco**: Conceitos teóricos, implementação e complexidade
+**🎯 Foco**: Como funciona o algoritmo e nossa implementação
 
 ---
 
@@ -13,38 +13,38 @@ Você é responsável por explicar o **algoritmo de Dijkstra** em detalhes técn
 ### **🎬 1. INTRODUÇÃO AO ALGORITMO (1 minuto)**
 
 #### **O que falar:**
-> "O algoritmo de Dijkstra é um algoritmo guloso desenvolvido por Edsger Dijkstra em 1959. Ele encontra o caminho mínimo entre dois nós em um grafo com pesos não-negativos nas arestas."
+> "Vou explicar o algoritmo de Dijkstra, que é como um GPS para grafos. Ele encontra o caminho mais curto entre dois pontos, considerando os pesos das conexões."
 
 #### **Conceitos fundamentais:**
-- **Algoritmo Guloso**: Sempre escolhe a opção que parece melhor no momento
-- **Caminho Mínimo**: Menor soma de pesos das arestas
-- **Pesos Não-Negativos**: Algoritmo funciona apenas com pesos ≥ 0
-- **Complexidade**: O(V²) onde V é o número de vértices
+- **Estratégia gulosa**: Sempre escolhe o caminho que parece melhor no momento
+- **Caminho mais curto**: Menor soma dos pesos das conexões
+- **Pesos positivos**: Funciona apenas com pesos não-negativos
+- **Eficiência**: Tempo proporcional ao quadrado do número de nós
 
 ---
 
-### **🧮 2. FUNCIONAMENTO DO ALGORITMO (2 minutos)**
+### **🧮 2. COMO FUNCIONA (2 minutos)**
 
-#### **Estruturas de dados necessárias:**
+#### **O que preciso para fazer funcionar:**
 ```php
-$distancia = [];      // Menor distância conhecida para cada nó
-$anterior = [];       // Nó predecessor no caminho mínimo
-$visitados = [];      // Nós já processados
-$fila = [];          // Fila de prioridade (simplificada)
+$distancia = [];      // Menor distância conhecida para cada ponto
+$anterior = [];       // Ponto anterior no caminho mais curto
+$visitados = [];      // Pontos já analisados
+$fila = [];          // Lista de pontos para analisar
 ```
 
-#### **Processo passo a passo:**
-1. **Inicialização**: Distância origem = 0, outros = ∞
-2. **Seleção**: Escolher nó com menor distância não visitado
-3. **Relaxamento**: Atualizar distâncias dos vizinhos
-4. **Repetição**: Continuar até processar todos os nós
-5. **Reconstrução**: Montar caminho do destino à origem
+#### **Passo a passo:**
+1. **Começar**: Distância do ponto inicial = 0, outros = infinito
+2. **Escolher**: Pegar o ponto com menor distância ainda não visitado
+3. **Atualizar**: Verificar se consigo chegar nos vizinhos por um caminho melhor
+4. **Repetir**: Continuar até analisar todos os pontos
+5. **Montar**: Construir o caminho do destino até a origem
 
 ---
 
-### **💻 3. IMPLEMENTAÇÃO NO CÓDIGO (3 minutos)**
+### **💻 3. NOSSA IMPLEMENTAÇÃO (3 minutos)**
 
-#### **Mostrar arquivo**: `app/Services/DijkstraService.php`
+#### **Vou mostrar nosso código**: `app/Services/DijkstraService.php`
 
 ```php
 public function calcularCaminhoMinimo(Grafo $grafo, int $origem, int $destino): array
@@ -113,12 +113,12 @@ public function calcularCaminhoMinimo(Grafo $grafo, int $origem, int $destino): 
 }
 ```
 
-#### **Pontos-chave para destacar:**
-- **Inicialização**: Origem = 0, outros = infinito
-- **Seleção gulosa**: Sempre escolhe menor distância
-- **Relaxamento**: Atualiza distâncias quando encontra caminho melhor
-- **Parada antecipada**: Para quando encontra destino
-- **Reconstrução**: Monta caminho usando array de predecessores
+#### **Pontos importantes do nosso código:**
+- **Começamos**: Ponto inicial = 0, outros = infinito
+- **Escolhemos**: Sempre o ponto com menor distância
+- **Atualizamos**: Distâncias quando encontramos caminho melhor
+- **Paramos**: Quando chegamos ao destino
+- **Montamos**: O caminho usando os pontos anteriores
 
 ---
 

@@ -1,35 +1,35 @@
-# 🎨 MEMBRO 2: Interface e Visualização
+# 🎨 MEMBRO 2: Interface e Visualização - Vitor
 
-## 🎯 **SUA RESPONSABILIDADE**
-Você é responsável por demonstrar a **interface do sistema** e a **visualização interativa** dos grafos.
+## 🎯 **MINHA RESPONSABILIDADE**
+Sou responsável por mostrar como o **sistema funciona na prática** e como é fácil de usar.
 
 **⏱️ Tempo**: 7 minutos  
-**🎯 Foco**: Demonstração prática, interface e experiência do usuário
+**🎯 Foco**: Demonstrar o sistema funcionando e como é intuitivo
 
 ---
 
 ## 📋 **ROTEIRO DE APRESENTAÇÃO**
 
-### **🎬 1. INTRODUÇÃO À INTERFACE (1 minuto)**
+### **🎬 1. NOSSA INTERFACE (1 minuto)**
 
 #### **O que falar:**
-> "A interface do sistema foi projetada para ser intuitiva e educacional, permitindo que os usuários visualizem e interajam com os grafos de forma natural e eficiente."
+> "Vou mostrar como criamos uma interface simples e intuitiva. O sistema é fácil de usar e funciona em qualquer dispositivo."
 
-#### **Características principais:**
-- **Design Moderno**: Interface atrativa e profissional
-- **Responsividade**: Funciona em desktop, tablet e mobile
-- **Dark Mode**: Tema escuro para melhor experiência
-- **Visualização Interativa**: Usando vis.js para renderização dinâmica
+#### **O que torna nosso sistema especial:**
+- **Design limpo**: Interface bonita e fácil de entender
+- **Funciona em tudo**: Desktop, tablet e celular
+- **Modo escuro**: Para quem prefere tema escuro
+- **Visualização dinâmica**: Os grafos se movem e interagem
 
 ---
 
-### **🎨 2. DEMONSTRAÇÃO DE CRIAÇÃO DE GRAFOS (2 minutos)**
+### **🎨 2. CRIANDO UM GRAFO (2 minutos)**
 
-#### **O que demonstrar:**
-1. **Acessar sistema** e fazer login
-2. **Criar novo grafo** com dados de exemplo
-3. **Configurar arestas** com pesos variados
-4. **Salvar grafo** e visualizar resultado
+#### **Vou mostrar como é fácil:**
+1. **Entrar no sistema** e fazer login
+2. **Criar um grafo novo** com nossos dados de exemplo
+3. **Conectar os pontos** com pesos diferentes
+4. **Salvar e ver** o resultado
 
 #### **Dados de exemplo para usar:**
 ```
