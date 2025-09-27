@@ -13,8 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- CSS Global -->
-    <link rel="stylesheet" href="{{ secure_asset('css/app.css.php') }}">
-    <link rel="stylesheet" href="{{ secure_asset('css/grafos.css.php') }}">
+    @if(app()->environment('production'))
+        <link rel="stylesheet" href="{{ secure_asset('css/app.css.php') }}">
+        <link rel="stylesheet" href="{{ secure_asset('css/grafos.css.php') }}">
+    @else
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/grafos.css') }}">
+    @endif
     
     <!-- Vis.js Network -->
     <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
@@ -203,7 +208,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- JavaScript Global -->
-    <script src="{{ secure_asset('js/app.js.php') }}"></script>
+    @if(app()->environment('production'))
+        <script src="{{ secure_asset('js/app.js.php') }}"></script>
+    @else
+        <script src="{{ asset('js/app.js') }}"></script>
+    @endif
     
     <!-- Debug Script -->
     <script>
