@@ -71,8 +71,8 @@ class GrafoService
             'tipo' => $dados['tipo'],
             'quantidade_nos' => $dados['quantidade_nos'],
             'configuracoes_visuais' => [
-                'cores_padrao' => config('sistema.visualizacao.cores_padrao'),
-                'animacoes' => config('sistema.visualizacao.animacoes')
+                'cores_padrao' => ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6'],
+                'animacoes' => true
             ]
         ]);
     }
@@ -82,7 +82,7 @@ class GrafoService
      */
     private function criarNos(Grafo $grafo, array $dados): void
     {
-        $paleta = config('sistema.paletas.padrao');
+        $paleta = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6'];
         
         for ($i = 0; $i < $dados['quantidade_nos']; $i++) {
             NoGrafo::create([
@@ -91,7 +91,7 @@ class GrafoService
                 'cor' => $paleta[$i % count($paleta)],
                 'posicao_x' => rand(50, 500),
                 'posicao_y' => rand(50, 300),
-                'tamanho' => config('sistema.visualizacao.tamanho_no_padrao')
+                'tamanho' => 20
             ]);
         }
     }
@@ -205,14 +205,14 @@ class GrafoService
             ]);
             
             if ($origem && $destino) {
-                ArestaGrafo::create([
-                    'id_grafo' => $grafo->id,
-                    'id_no_origem' => $origem->id,
-                    'id_no_destino' => $destino->id,
-                    'peso' => $conexao['peso'],
-                    'cor' => $conexao['peso'] > 0 ? '#2ecc71' : '#e74c3c',
-                    'largura' => config('sistema.visualizacao.largura_aresta_padrao')
-                ]);
+                    ArestaGrafo::create([
+                        'id_grafo' => $grafo->id,
+                        'id_no_origem' => $origem->id,
+                        'id_no_destino' => $destino->id,
+                        'peso' => $conexao['peso'],
+                        'cor' => $conexao['peso'] > 0 ? '#2ecc71' : '#e74c3c',
+                        'largura' => 2
+                    ]);
                 $arestasCriadas++;
             }
         }

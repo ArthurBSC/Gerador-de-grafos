@@ -78,6 +78,11 @@ class GrafoController extends Controller
         try {
             $dados = $request->validated();
             
+            Log::info('Dados recebidos no controller', [
+                'dados_validados' => $dados,
+                'dados_brutos' => $request->all()
+            ]);
+            
             // Usar o serviço para criar o grafo
             $grafo = $this->grafoService->criarGrafo($dados);
             
