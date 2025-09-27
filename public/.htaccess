@@ -9,6 +9,14 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Force HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Serve static files with correct MIME types
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^(.*\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$ - [L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
@@ -18,4 +26,19 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+</IfModule>
+
+# MIME Types
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+    AddType image/png .png
+    AddType image/jpeg .jpg .jpeg
+    AddType image/gif .gif
+    AddType image/svg+xml .svg
+    AddType image/x-icon .ico
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType font/ttf .ttf
+    AddType font/eot .eot
 </IfModule>
