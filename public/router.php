@@ -5,9 +5,14 @@
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// Debug: Log das requisições
+error_log("Router: Requesting URI: " . $uri);
+
 // Se for um arquivo estático (CSS, JS, imagens, etc.)
 if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri)) {
     $file = __DIR__ . $uri;
+    
+    error_log("Router: Static file requested: " . $file);
     
     if (file_exists($file)) {
         // Determinar o tipo MIME
@@ -16,6 +21,8 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
             $mimeType = 'application/octet-stream';
         }
         
+        error_log("Router: Serving file: " . $file . " with MIME: " . $mimeType);
+        
         // Definir headers
         header('Content-Type: ' . $mimeType);
         header('Content-Length: ' . filesize($file));
@@ -23,6 +30,11 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
         
         // Servir o arquivo
         readfile($file);
+        exit;
+    } else {
+        error_log("Router: File not found: " . $file);
+        http_response_code(404);
+        echo "File not found: " . $uri;
         exit;
     }
 }

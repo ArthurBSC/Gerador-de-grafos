@@ -205,6 +205,27 @@
     <!-- JavaScript Global -->
     <script src="{{ asset('js/app.js') }}"></script>
     
+    <!-- Debug Script -->
+    <script>
+        console.log('=== DEBUG SISTEMA GERADOR DE GRAFOS ===');
+        console.log('Current theme:', document.documentElement.getAttribute('data-theme'));
+        console.log('DarkModeManager exists:', typeof DarkModeManager !== 'undefined');
+        
+        // Forçar aplicação do tema se necessário
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, checking theme...');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            console.log('Saved theme:', savedTheme);
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Inicializar DarkModeManager se não estiver inicializado
+            if (typeof window.darkModeManager === 'undefined') {
+                console.log('Initializing DarkModeManager...');
+                window.darkModeManager = new DarkModeManager();
+            }
+        });
+    </script>
+    
     @stack('scripts')
 </body>
 </html>
