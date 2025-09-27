@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Rota de teste simples
+Route::get('/test', function () {
+    return response()->json([
+        'status' => 'OK',
+        'message' => 'Laravel funcionando!',
+        'timestamp' => now()->toISOString(),
+        'php_version' => PHP_VERSION,
+        'laravel_version' => app()->version()
+    ]);
+})->name('test');
+
 // Página inicial com login
 Route::get('/', function () {
     return view('welcome');
