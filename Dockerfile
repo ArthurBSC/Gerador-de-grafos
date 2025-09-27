@@ -1,6 +1,9 @@
 # Use PHP 8.2 with Apache
 FROM php:8.2-apache
 
+# Verify PHP version
+RUN php --version
+
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
@@ -26,7 +29,8 @@ WORKDIR /var/www/html
 # Copy composer files first for better caching
 COPY composer.json composer.lock ./
 
-# Install PHP dependencies
+# Update composer and install dependencies
+RUN composer self-update --no-interaction
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Copy application code

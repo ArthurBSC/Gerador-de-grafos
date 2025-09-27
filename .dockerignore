@@ -59,3 +59,7 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Railway specific
+railway.json
+railway.toml
