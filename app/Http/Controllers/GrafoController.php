@@ -39,7 +39,7 @@ class GrafoController extends Controller
     /**
      * Lista todos os grafos com paginação otimizada
      */
-    public function index(): View
+    public function index()
     {
         try {
             $paginacao = 15;
@@ -50,10 +50,23 @@ class GrafoController extends Controller
             
             Log::info('LISTAGEM: Total de grafos carregados: ' . $grafos->count());
             
-            return view('grafos.indice', compact('grafos'));
+            // Retornar JSON temporariamente para debug
+            return response()->json([
+                'status' => 'OK',
+                'message' => 'Lista de grafos carregada com sucesso!',
+                'timestamp' => now()->toISOString(),
+                'total_grafos' => $grafos->count(),
+                'grafos' => $grafos->items()
+            ]);
+            
+            // return view('grafos.indice', compact('grafos'));
         } catch (\Exception $e) {
             Log::error('Erro ao listar grafos: ' . $e->getMessage());
-            return view('grafos.indice', ['grafos' => collect()]);
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => $e->getMessage(),
+                'timestamp' => now()->toISOString()
+            ], 500);
         }
     }
 
