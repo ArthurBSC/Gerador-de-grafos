@@ -13,17 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Rota de teste simples
-Route::get('/test', function () {
-    return response()->json([
-        'status' => 'OK',
-        'message' => 'Laravel funcionando!',
-        'timestamp' => now()->toISOString(),
-        'php_version' => PHP_VERSION,
-        'laravel_version' => app()->version()
-    ]);
-})->name('test');
-
 // Página inicial com login
 Route::get('/', function () {
     return view('welcome');
@@ -49,8 +38,16 @@ Route::post('/login', function () {
     }
 })->name('login');
 
-// Grupo de rotas para grafos (otimizado)
-Route::prefix('grafos')->name('grafos.')->group(function () {
+// Middleware de autenticação simples
+Route::middleware(function ($request, $next) {
+    if (!session('user_logged_in')) {
+        return redirect('/')->with('erro', 'Você precisa fazer login para acessar esta página!');
+    }
+    return $next($request);
+})->group(function () {
+    
+    // Grupo de rotas para grafos (otimizado)
+    Route::prefix('grafos')->name('grafos.')->group(function () {
 
     // Listagem otimizada
     Route::get('/', [GrafoController::class, 'index'])
@@ -83,6 +80,7 @@ Route::prefix('grafos')->name('grafos.')->group(function () {
     // Cálculo de caminho mínimo
     Route::post('/{id}/caminho-minimo', [GrafoController::class, 'calcularCaminhoMinimo'])
          ->name('caminho-minimo')->where('id', '[0-9]+');
+    });
 });
 
 // Rota de logout

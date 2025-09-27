@@ -85,16 +85,12 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'EOF' >> /start.sh \
     && echo 'echo "=== GERANDO CHAVE ==="' >> /start.sh \
     && echo 'php artisan key:generate --force' >> /start.sh \
-    && echo 'echo "=== VERIFICANDO BANCO DE DADOS ==="' >> /start.sh \
-    && echo 'ls -la database/' >> /start.sh \
     && echo 'echo "=== EXECUTANDO MIGRAÇÕES ==="' >> /start.sh \
     && echo 'php artisan migrate --force' >> /start.sh \
     && echo 'echo "=== CACHEANDO CONFIGURAÇÕES ==="' >> /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
     && echo 'php artisan view:cache' >> /start.sh \
-    && echo 'echo "=== TESTANDO LARAVEL ==="' >> /start.sh \
-    && echo 'php artisan --version' >> /start.sh \
     && echo 'echo "=== INICIANDO SERVIDOR PHP ==="' >> /start.sh \
     && echo 'php -S 0.0.0.0:$PORT -t public' >> /start.sh \
     && chmod +x /start.sh
