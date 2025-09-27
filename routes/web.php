@@ -3,6 +3,9 @@
 use App\Http\Controllers\GrafoController;
 use Illuminate\Support\Facades\Route;
 
+// Incluir rotas de healthcheck
+require_once __DIR__ . '/health.php';
+
 /*
 |--------------------------------------------------------------------------
 | Rotas Otimizadas - Sistema Gerador de Grafos
@@ -137,6 +140,16 @@ if (app()->environment(['local', 'development'])) {
         })->name('reset-banco');
     });
 }
+
+// Rota root para healthcheck
+Route::get('/', function () {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'Sistema Gerador de Grafos está funcionando',
+        'timestamp' => now()->toISOString(),
+        'version' => '2.0.0'
+    ], 200);
+});
 
 // Fallback otimizado
 Route::fallback(function () {
