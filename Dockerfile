@@ -1,4 +1,4 @@
-# Use PHP 8.1 with Apache (compatível com dependências)
+# Use PHP 8.1 with Apache (compatível com dependências) - Railway Deploy
 FROM php:8.1-apache
 
 # Verify PHP version
@@ -73,3 +73,5 @@ EXPOSE 80
 
 # Start Apache
 CMD ["/start.sh"]
+
+# Railway Deploy - Force Cache Invalidation
