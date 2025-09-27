@@ -13,8 +13,8 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         // Temporariamente excluir rotas de grafos para debug
-        // '/grafos',
-        // '/grafos/*'
+        '/grafos',
+        '/grafos/*'
     ];
 }
 
