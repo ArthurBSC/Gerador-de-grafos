@@ -1,5 +1,5 @@
-# Use PHP 8.1 with built-in server (mais simples e confiável)
-FROM php:8.1-cli
+# Use PHP 8.2 with built-in server (mais simples e confiável)
+FROM php:8.2-cli
 
 # Verify PHP version
 RUN php --version
