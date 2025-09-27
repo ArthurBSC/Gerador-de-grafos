@@ -12,9 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        // Temporariamente excluir rotas de grafos para debug
-        '/grafos',
-        '/grafos/*'
+        // Nenhuma rota excluída - CSRF ativo para todas as rotas
     ];
 }
 

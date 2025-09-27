@@ -73,6 +73,9 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'QUEUE_CONNECTION=sync' >> /start.sh \
     && echo 'SESSION_DRIVER=file' >> /start.sh \
     && echo 'SESSION_LIFETIME=120' >> /start.sh \
+    && echo 'SESSION_SECURE_COOKIE=true' >> /start.sh \
+    && echo 'SESSION_HTTP_ONLY=true' >> /start.sh \
+    && echo 'SESSION_SAME_SITE=lax' >> /start.sh \
     && echo '' >> /start.sh \
     && echo 'MAIL_MAILER=log' >> /start.sh \
     && echo 'MAIL_HOST=mailpit' >> /start.sh \
@@ -87,14 +90,14 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'php artisan key:generate --force' >> /start.sh \
     && echo 'echo "=== VERIFICANDO BANCO DE DADOS ==="' >> /start.sh \
     && echo 'ls -la database/' >> /start.sh \
-    && echo 'echo "=== LIMPANDO SESSÕES ==="' >> /start.sh \
-    && echo 'rm -rf storage/framework/sessions/*' >> /start.sh \
+    && echo 'echo "=== CONFIGURANDO SESSÕES ==="' >> /start.sh \
+    && echo 'mkdir -p storage/framework/sessions' >> /start.sh \
     && echo 'chmod -R 777 storage/' >> /start.sh \
     && echo 'echo "=== EXECUTANDO MIGRAÇÕES ==="' >> /start.sh \
     && echo 'php artisan migrate --force' >> /start.sh \
     && echo 'echo "=== LIMPANDO CACHES ==="' >> /start.sh \
     && echo 'php artisan cache:clear' >> /start.sh \
-    && echo 'php artisan session:table' >> /start.sh \
+    && echo 'php artisan config:clear' >> /start.sh \
     && echo 'echo "=== CACHEANDO CONFIGURAÇÕES ==="' >> /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
