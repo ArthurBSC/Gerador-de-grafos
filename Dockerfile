@@ -1,5 +1,5 @@
-# Use PHP 8.1 with Apache (compatível com dependências) - Railway Deploy
-FROM php:8.1-apache
+# Use PHP 8.1 CLI (mais simples para Railway)
+FROM php:8.1-cli
 
 # Verify PHP version
 RUN php --version
@@ -43,20 +43,11 @@ RUN mkdir -p /var/www/html/storage/logs \
     && mkdir -p /var/www/html/storage/framework/sessions \
     && mkdir -p /var/www/html/storage/framework/views \
     && mkdir -p /var/www/html/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
 # Create SQLite database if it doesn't exist
 RUN touch database/database.sqlite
-
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
-
-# Configure Apache
-RUN echo '<Directory /var/www/html>' >> /etc/apache2/apache2.conf \
-    && echo '    AllowOverride All' >> /etc/apache2/apache2.conf \
-    && echo '</Directory>' >> /etc/apache2/apache2.conf
 
 # Create startup script
 RUN echo '#!/bin/bash' > /start.sh \
@@ -65,24 +56,13 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
     && echo 'php artisan view:cache' >> /start.sh \
-    && echo 'echo "Listen $PORT" >> /etc/apache2/ports.conf' >> /start.sh \
-    && echo 'echo "<VirtualHost *:$PORT>" > /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "    DocumentRoot /var/www/html/public" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "    <Directory /var/www/html/public>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "        AllowOverride All" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "        Require all granted" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "    </Directory>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
-    && echo 'apache2-foreground' >> /start.sh \
+    && echo 'php artisan serve --host 0.0.0.0 --port $PORT' >> /start.sh \
     && chmod +x /start.sh
-
-# Configure Apache for Railway
-RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 
 # Expose port from Railway
 EXPOSE $PORT
 
-# Start Apache
+# Start PHP built-in server
 CMD ["/start.sh"]
 
 # Railway Deploy - Force Cache Invalidation
