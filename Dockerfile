@@ -49,13 +49,26 @@ RUN mkdir -p /var/www/html/storage/logs \
 # Create SQLite database if it doesn't exist
 RUN touch database/database.sqlite
 
-# Create startup script
+# Create startup script with debug
 RUN echo '#!/bin/bash' > /start.sh \
+    && echo 'echo "=== INICIANDO SISTEMA GERADOR DE GRAFOS ==="' >> /start.sh \
+    && echo 'echo "Porta: $PORT"' >> /start.sh \
+    && echo 'echo "Diretório: $(pwd)"' >> /start.sh \
+    && echo 'echo "Arquivos:"' >> /start.sh \
+    && echo 'ls -la' >> /start.sh \
+    && echo 'echo "=== CONFIGURANDO AMBIENTE ==="' >> /start.sh \
+    && echo 'cp .env.railway .env' >> /start.sh \
+    && echo 'echo "=== GERANDO CHAVE ==="' >> /start.sh \
     && echo 'php artisan key:generate --force' >> /start.sh \
+    && echo 'echo "=== EXECUTANDO MIGRAÇÕES ==="' >> /start.sh \
     && echo 'php artisan migrate --force' >> /start.sh \
+    && echo 'echo "=== CACHEANDO CONFIGURAÇÕES ==="' >> /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
     && echo 'php artisan view:cache' >> /start.sh \
+    && echo 'echo "=== TESTANDO HEALTHCHECK ==="' >> /start.sh \
+    && echo 'php artisan route:list | grep health' >> /start.sh \
+    && echo 'echo "=== INICIANDO SERVIDOR ==="' >> /start.sh \
     && echo 'php artisan serve --host 0.0.0.0 --port $PORT' >> /start.sh \
     && chmod +x /start.sh
 
