@@ -42,7 +42,7 @@ RUN mkdir -p /var/www/html/storage/logs \
     && mkdir -p /var/www/html/storage/framework/sessions \
     && mkdir -p /var/www/html/storage/framework/views \
     && mkdir -p /var/www/html/bootstrap/cache \
-    && chmod -R 755 /var/www/html/storage \
+    && chmod -R 777 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
 # Create SQLite database if it doesn't exist
@@ -87,8 +87,14 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'php artisan key:generate --force' >> /start.sh \
     && echo 'echo "=== VERIFICANDO BANCO DE DADOS ==="' >> /start.sh \
     && echo 'ls -la database/' >> /start.sh \
+    && echo 'echo "=== LIMPANDO SESSÕES ==="' >> /start.sh \
+    && echo 'rm -rf storage/framework/sessions/*' >> /start.sh \
+    && echo 'chmod -R 777 storage/' >> /start.sh \
     && echo 'echo "=== EXECUTANDO MIGRAÇÕES ==="' >> /start.sh \
     && echo 'php artisan migrate --force' >> /start.sh \
+    && echo 'echo "=== LIMPANDO CACHES ==="' >> /start.sh \
+    && echo 'php artisan cache:clear' >> /start.sh \
+    && echo 'php artisan session:table' >> /start.sh \
     && echo 'echo "=== CACHEANDO CONFIGURAÇÕES ==="' >> /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
