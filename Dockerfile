@@ -1,5 +1,5 @@
-# Use PHP 8.2 with Apache
-FROM php:8.2-apache
+# Use PHP 8.1 with Apache (compatível com dependências)
+FROM php:8.1-apache
 
 # Verify PHP version
 RUN php --version
@@ -27,7 +27,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Copy composer files first for better caching
-COPY composer.json composer.lock ./
+COPY composer.json ./
 
 # Update composer and install dependencies
 RUN composer self-update --no-interaction
