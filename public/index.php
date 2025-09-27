@@ -3,9 +3,14 @@
 // Servir arquivos estáticos antes do Laravel
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+// Debug log
+error_log("Index.php: Requesting URI: " . $uri);
+
 // Se for um arquivo estático (CSS, JS, imagens, etc.)
 if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri)) {
     $file = __DIR__ . $uri;
+    
+    error_log("Index.php: Static file requested: " . $file);
     
     if (file_exists($file)) {
         // Determinar o tipo MIME
@@ -27,6 +32,8 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
         
         $mimeType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension] : 'application/octet-stream';
         
+        error_log("Index.php: Serving file: " . $file . " with MIME: " . $mimeType);
+        
         // Definir headers
         header('Content-Type: ' . $mimeType);
         header('Content-Length: ' . filesize($file));
@@ -35,6 +42,8 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
         // Servir o arquivo
         readfile($file);
         exit;
+    } else {
+        error_log("Index.php: File not found: " . $file);
     }
 }
 
