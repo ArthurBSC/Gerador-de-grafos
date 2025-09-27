@@ -24,6 +24,7 @@
 .env.local
 .env.development
 .env.testing
+.env.railway
 
 # IDE files
 .vscode/
@@ -38,9 +39,16 @@ Thumbs.db
 
 # Logs
 *.log
+storage/logs/laravel.log
+storage/logs/*
 
 # Cache
 .cache/
+storage/framework/cache/data/
+storage/framework/sessions/
+storage/framework/views/
+bootstrap/cache/packages.php
+bootstrap/cache/services.php
 
 # Temporary files
 *.tmp
@@ -48,6 +56,7 @@ Thumbs.db
 
 # Database
 database/database.sqlite
+database/*.sqlite
 
 # Coverage reports
 coverage/
