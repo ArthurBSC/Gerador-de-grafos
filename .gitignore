@@ -25,7 +25,6 @@
 .env.development
 .env.testing
 .env.railway
-railway.env
 
 # IDE files
 .vscode/
