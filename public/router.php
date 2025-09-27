@@ -5,7 +5,7 @@
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Debug: Log das requisições
+// Debug log
 error_log("Router: Requesting URI: " . $uri);
 
 // Se for um arquivo estático (CSS, JS, imagens, etc.)
@@ -15,7 +15,7 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
     error_log("Router: Static file requested: " . $file);
     
     if (file_exists($file)) {
-        // Determinar o tipo MIME com fallbacks robustos
+        // Determinar o tipo MIME baseado na extensão
         $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
         $mimeTypes = [
             'css' => 'text/css',
@@ -32,23 +32,14 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
             'eot' => 'font/eot'
         ];
         
-        // Usar fallback baseado na extensão (mais confiável)
         $mimeType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension] : 'application/octet-stream';
-        
-        // Tentar mime_content_type apenas como backup
-        if ($mimeType === 'application/octet-stream') {
-            $detectedMime = mime_content_type($file);
-            if ($detectedMime !== false && $detectedMime !== 'text/plain') {
-                $mimeType = $detectedMime;
-            }
-        }
         
         error_log("Router: Serving file: " . $file . " with MIME: " . $mimeType);
         
         // Definir headers
         header('Content-Type: ' . $mimeType);
         header('Content-Length: ' . filesize($file));
-        header('Cache-Control: public, max-age=31536000'); // Cache por 1 ano
+        header('Cache-Control: public, max-age=31536000');
         
         // Servir o arquivo
         readfile($file);
@@ -62,8 +53,10 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
 }
 
 // Se for o healthcheck
-if ($uri === '/health.php') {
-    include __DIR__ . '/health.php';
+if ($uri === '/health') {
+    header('Content-Type: text/plain');
+    header('Cache-Control: no-cache');
+    echo "OK";
     exit;
 }
 
