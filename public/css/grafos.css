@@ -1,0 +1,662 @@
+/* ========================================
+   GRAFOS SPECIFIC STYLES
+   ======================================== */
+
+/* ========================================
+   GRAPH VISUALIZATION
+   ======================================== */
+#networkContainer {
+    height: 500px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--bg-primary);
+    transition: all var(--transition-normal);
+}
+
+[data-theme="dark"] #networkContainer {
+    border-color: var(--border-dark);
+    background: var(--bg-secondary);
+}
+
+/* ========================================
+   GRAPH CARDS
+   ======================================== */
+.card-minimal {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.card-minimal:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .card-minimal {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.card-minimal .card-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.card-minimal .card-text {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.card-minimal .badge {
+    font-size: 0.8em;
+    padding: 4px 8px;
+}
+
+/* ========================================
+   GRAPH ACTIONS
+   ======================================== */
+.btn-action {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all var(--transition-fast);
+    margin: 0 2px;
+}
+
+.btn-action:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--text-white);
+    transform: translateY(-1px);
+}
+
+.btn-action.delete:hover {
+    background: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-action.edit:hover {
+    background: var(--warning-color);
+    border-color: var(--warning-color);
+}
+
+.btn-action.view:hover {
+    background: var(--info-color);
+    border-color: var(--info-color);
+}
+
+/* ========================================
+   GRAPH STATS
+   ======================================== */
+.graph-stats {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+.stat-item i {
+    color: var(--primary-color);
+}
+
+/* ========================================
+   GRAPH FORM STYLES
+   ======================================== */
+.container-nos {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--bg-primary);
+    transition: all var(--transition-normal);
+}
+
+[data-theme="dark"] .container-nos {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.node-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: all var(--transition-fast);
+}
+
+.node-item:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-primary);
+}
+
+[data-theme="dark"] .node-item {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   ADJACENCY MATRIX
+   ======================================== */
+.adjacency-matrix {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.adjacency-matrix table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-primary);
+}
+
+.adjacency-matrix th,
+.adjacency-matrix td {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.adjacency-matrix th {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.adjacency-matrix td {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .adjacency-matrix table {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .adjacency-matrix th {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .adjacency-matrix td {
+    color: var(--text-primary);
+}
+
+/* ========================================
+   PATH CALCULATION
+   ======================================== */
+.path-result {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.path-result.success {
+    border-color: var(--success-color);
+    background: rgba(46, 204, 113, 0.1);
+}
+
+.path-result.error {
+    border-color: var(--danger-color);
+    background: rgba(231, 76, 60, 0.1);
+}
+
+[data-theme="dark"] .path-result {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.path-steps {
+    margin-top: 10px;
+}
+
+.path-step {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 5px 0;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+[data-theme="dark"] .path-step {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   CUSTOM POPUPS
+   ======================================== */
+.custom-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: popupFadeIn 0.2s ease;
+}
+
+.custom-popup {
+    background: var(--bg-primary);
+    border-radius: 12px;
+    padding: 0;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: var(--shadow-lg);
+    animation: popupSlideIn 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .custom-popup {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.custom-popup-header {
+    padding: 20px 20px 15px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-popup-header h5 {
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.custom-popup-body {
+    padding: 15px 20px;
+    color: var(--text-secondary);
+}
+
+.custom-popup-footer {
+    padding: 15px 20px 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    border-top: 1px solid var(--border-color);
+}
+
+@keyframes popupFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popupSlideIn {
+    from { transform: translateY(-20px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes popupSlideOut {
+    from { transform: translateY(0) scale(1); opacity: 1; }
+    to { transform: translateY(-20px) scale(0.95); opacity: 0; }
+}
+
+/* ========================================
+   NOTIFICATIONS
+   ======================================== */
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    max-width: 350px;
+}
+
+.notification {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-md);
+    animation: notificationSlideIn 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+[data-theme="dark"] .notification {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.notification.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.notification.error {
+    border-left: 4px solid var(--danger-color);
+}
+
+.notification.warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+.notification.info {
+    border-left: 4px solid var(--info-color);
+}
+
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--primary-color);
+    animation: notificationProgress 3s linear;
+}
+
+@keyframes notificationSlideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes notificationProgress {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+
+/* ========================================
+   RESPONSIVE GRAPH STYLES
+   ======================================== */
+@media (max-width: 768px) {
+    #networkContainer {
+        height: 300px;
+    }
+    
+    .graph-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .card-minimal {
+        padding: 15px;
+    }
+    
+    .custom-popup {
+        width: 95%;
+        margin: 0 10px;
+    }
+    
+    .notification-container {
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+/* ========================================
+   DARK MODE - CARDS ESPECÍFICOS
+   ======================================== */
+
+/* Card de Nós do Grafo */
+[data-theme="dark"] .card {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .card-header {
+    background: var(--bg-tertiary);
+    border-bottom-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .card-body {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Lista de Nós */
+[data-theme="dark"] .list-group-item {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .list-group-item:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+/* Tabela da Matriz de Adjacência */
+[data-theme="dark"] .table {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .table thead th {
+    background: var(--bg-tertiary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .table tbody td {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .table tbody tr:hover td {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+/* Cores específicas para valores da matriz */
+[data-theme="dark"] .table tbody td[data-value="0"] {
+    background: var(--bg-primary);
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] .table tbody td[data-value="1"] {
+    background: rgba(46, 204, 113, 0.2);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .table tbody td[data-value="-1"] {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--text-primary);
+}
+
+/* Cards de Estatísticas e Propriedades */
+[data-theme="dark"] .stats-card {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .stats-card .card-title {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .stats-card .card-text {
+    color: var(--text-secondary);
+}
+
+/* Badges e indicadores */
+[data-theme="dark"] .badge {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .badge.bg-primary {
+    background: var(--cor-primaria) !important;
+}
+
+[data-theme="dark"] .badge.bg-success {
+    background: var(--cor-sucesso) !important;
+}
+
+[data-theme="dark"] .badge.bg-info {
+    background: var(--cor-info) !important;
+}
+
+[data-theme="dark"] .badge.bg-warning {
+    background: var(--cor-aviso) !important;
+}
+
+[data-theme="dark"] .badge.bg-danger {
+    background: var(--cor-perigo) !important;
+}
+
+/* ========================================
+   MATRIZ DE ADJACÊNCIA - DARK MODE ESPECÍFICO
+   ======================================== */
+
+/* Cabeçalho "Origem\Destino" */
+[data-theme="dark"] .table thead th:first-child {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: 600;
+    border-color: var(--border-color);
+}
+
+/* Células da matriz com cores de destaque */
+[data-theme="dark"] .table tbody td {
+    position: relative;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Valor 0 - Sem conexão */
+[data-theme="dark"] .table tbody td:has-text("0") {
+    background: var(--bg-primary);
+    color: var(--text-muted);
+    border: 2px solid var(--border-color);
+}
+
+/* Valor 1 - Conexão positiva */
+[data-theme="dark"] .table tbody td:has-text("1") {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(46, 204, 113, 0.1));
+    color: #2ecc71;
+    border: 2px solid rgba(46, 204, 113, 0.4);
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.2);
+}
+
+/* Valor -1 - Conexão negativa */
+[data-theme="dark"] .table tbody td:has-text("-1") {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(231, 76, 60, 0.1));
+    color: #e74c3c;
+    border: 2px solid rgba(231, 76, 60, 0.4);
+    box-shadow: 0 0 8px rgba(231, 76, 60, 0.2);
+}
+
+/* Efeito hover para células da matriz */
+[data-theme="dark"] .table tbody td:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+/* Células diagonais (A-A, B-B, etc.) */
+[data-theme="dark"] .table tbody tr:nth-child(1) td:nth-child(1),
+[data-theme="dark"] .table tbody tr:nth-child(2) td:nth-child(2),
+[data-theme="dark"] .table tbody tr:nth-child(3) td:nth-child(3),
+[data-theme="dark"] .table tbody tr:nth-child(4) td:nth-child(4),
+[data-theme="dark"] .table tbody tr:nth-child(5) td:nth-child(5) {
+    background: var(--bg-primary);
+    color: var(--text-muted);
+    border: 2px solid var(--border-color);
+    font-style: italic;
+}
+
+/* Cabeçalhos das colunas (A, B, C, D, E) */
+[data-theme="dark"] .table thead th:not(:first-child) {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: 600;
+    border-color: var(--border-color);
+    text-align: center;
+}
+
+/* Cabeçalhos das linhas (A, B, C, D, E) */
+[data-theme="dark"] .table tbody tr td:first-child {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: 600;
+    border-color: var(--border-color);
+    text-align: center;
+}
+
+/* ========================================
+   CLASSES ESPECÍFICAS PARA VALORES DA MATRIZ
+   ======================================== */
+
+/* Valor 0 - Sem conexão */
+[data-theme="dark"] .matrix-value-0 {
+    background: var(--bg-primary) !important;
+    color: var(--text-muted) !important;
+    border: 2px solid var(--border-color) !important;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Valor 1 - Conexão positiva */
+[data-theme="dark"] .matrix-value-1 {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.3), rgba(46, 204, 113, 0.1)) !important;
+    color: #2ecc71 !important;
+    border: 2px solid rgba(46, 204, 113, 0.4) !important;
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.2);
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Valor -1 - Conexão negativa */
+[data-theme="dark"] .matrix-value--1 {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.3), rgba(231, 76, 60, 0.1)) !important;
+    color: #e74c3c !important;
+    border: 2px solid rgba(231, 76, 60, 0.4) !important;
+    box-shadow: 0 0 8px rgba(231, 76, 60, 0.2);
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Células diagonais especiais */
+[data-theme="dark"] .matrix-diagonal {
+    background: var(--bg-primary) !important;
+    color: var(--text-muted) !important;
+    border: 2px solid var(--border-color) !important;
+    font-style: italic;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Efeito hover para todas as células da matriz */
+[data-theme="dark"] .matrix-cell:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
