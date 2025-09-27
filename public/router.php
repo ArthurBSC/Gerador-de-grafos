@@ -15,26 +15,32 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
     error_log("Router: Static file requested: " . $file);
     
     if (file_exists($file)) {
-        // Determinar o tipo MIME com fallbacks
-        $mimeType = mime_content_type($file);
-        if ($mimeType === false || $mimeType === 'text/plain') {
-            // Fallback baseado na extensão
-            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-            $mimeTypes = [
-                'css' => 'text/css',
-                'js' => 'application/javascript',
-                'png' => 'image/png',
-                'jpg' => 'image/jpeg',
-                'jpeg' => 'image/jpeg',
-                'gif' => 'image/gif',
-                'ico' => 'image/x-icon',
-                'svg' => 'image/svg+xml',
-                'woff' => 'font/woff',
-                'woff2' => 'font/woff2',
-                'ttf' => 'font/ttf',
-                'eot' => 'font/eot'
-            ];
-            $mimeType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension] : 'application/octet-stream';
+        // Determinar o tipo MIME com fallbacks robustos
+        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        $mimeTypes = [
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'png' => 'image/png',
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            'ico' => 'image/x-icon',
+            'svg' => 'image/svg+xml',
+            'woff' => 'font/woff',
+            'woff2' => 'font/woff2',
+            'ttf' => 'font/ttf',
+            'eot' => 'font/eot'
+        ];
+        
+        // Usar fallback baseado na extensão (mais confiável)
+        $mimeType = isset($mimeTypes[$extension]) ? $mimeTypes[$extension] : 'application/octet-stream';
+        
+        // Tentar mime_content_type apenas como backup
+        if ($mimeType === 'application/octet-stream') {
+            $detectedMime = mime_content_type($file);
+            if ($detectedMime !== false && $detectedMime !== 'text/plain') {
+                $mimeType = $detectedMime;
+            }
         }
         
         error_log("Router: Serving file: " . $file . " with MIME: " . $mimeType);
