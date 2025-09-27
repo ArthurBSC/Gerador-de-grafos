@@ -8,7 +8,25 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Serve static files with correct MIME types
+# Healthcheck
+RewriteRule ^health$ - [L]
+
+# Force MIME types para arquivos estáticos
+<FilesMatch "\.css$">
+    ForceType text/css
+    Header set Content-Type "text/css; charset=utf-8"
+</FilesMatch>
+
+<FilesMatch "\.js$">
+    ForceType application/javascript
+    Header set Content-Type "application/javascript; charset=utf-8"
+</FilesMatch>
+
+<FilesMatch "\.(png|jpg|jpeg|gif|ico|svg)$">
+    ForceType image/png
+</FilesMatch>
+
+# Serve static files directly
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(.*\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$ - [L]
 
@@ -21,36 +39,3 @@ RewriteRule ^ %1 [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [L]
-
-# Force MIME types - específicos para Firefox
-<FilesMatch "\.css$">
-    ForceType "text/css; charset=utf-8"
-    Header set Content-Type "text/css; charset=utf-8"
-    Header set X-Content-Type-Options nosniff
-</FilesMatch>
-
-<FilesMatch "\.js$">
-    ForceType "application/javascript; charset=utf-8"
-    Header set Content-Type "application/javascript; charset=utf-8"
-    Header set X-Content-Type-Options nosniff
-</FilesMatch>
-
-<FilesMatch "\.png$">
-    ForceType image/png
-</FilesMatch>
-
-<FilesMatch "\.(jpg|jpeg)$">
-    ForceType image/jpeg
-</FilesMatch>
-
-<FilesMatch "\.gif$">
-    ForceType image/gif
-</FilesMatch>
-
-<FilesMatch "\.svg$">
-    ForceType image/svg+xml
-</FilesMatch>
-
-<FilesMatch "\.ico$">
-    ForceType image/x-icon
-</FilesMatch>
