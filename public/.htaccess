@@ -11,25 +11,6 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Healthcheck
 RewriteRule ^health$ - [L]
 
-# Force MIME types para arquivos estáticos
-<FilesMatch "\.css$">
-    ForceType text/css
-    Header set Content-Type "text/css; charset=utf-8"
-</FilesMatch>
-
-<FilesMatch "\.js$">
-    ForceType application/javascript
-    Header set Content-Type "application/javascript; charset=utf-8"
-</FilesMatch>
-
-<FilesMatch "\.(png|jpg|jpeg|gif|ico|svg)$">
-    ForceType image/png
-</FilesMatch>
-
-# Serve static files directly
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(.*\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$ - [L]
-
 # Redirect Trailing Slashes If Not A Folder...
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} (.+)/$
