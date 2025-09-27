@@ -141,14 +141,9 @@ if (app()->environment(['local', 'development'])) {
     });
 }
 
-// Rota root para healthcheck
+// Rota root - redireciona para a aplicação principal
 Route::get('/', function () {
-    return response()->json([
-        'status' => 'ok',
-        'message' => 'Sistema Gerador de Grafos está funcionando',
-        'timestamp' => now()->toISOString(),
-        'version' => '2.0.0'
-    ], 200);
+    return redirect()->route('grafos.index');
 });
 
 // Fallback otimizado
