@@ -29,9 +29,9 @@ WORKDIR /var/www/html
 # Copy composer files first for better caching
 COPY composer.json ./
 
-# Update composer and install dependencies
+# Update composer and install dependencies without lock file
 RUN composer self-update --no-interaction
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --ignore-platform-reqs
 
 # Copy application code
 COPY . .

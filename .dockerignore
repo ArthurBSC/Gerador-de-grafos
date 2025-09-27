@@ -63,3 +63,6 @@ coverage/
 # Railway specific
 railway.json
 railway.toml
+
+# Composer lock file (will be generated during build)
+composer.lock
