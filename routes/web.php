@@ -3,8 +3,6 @@
 use App\Http\Controllers\GrafoController;
 use Illuminate\Support\Facades\Route;
 
-// Incluir rotas de healthcheck
-require_once __DIR__ . '/health.php';
 
 /*
 |--------------------------------------------------------------------------
