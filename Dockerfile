@@ -1,5 +1,5 @@
-# Use PHP 8.1 CLI (mais simples para Railway)
-FROM php:8.1-cli
+# Use PHP 8.1 with Apache (para servir arquivos estáticos corretamente)
+FROM php:8.1-apache
 
 # Verify PHP version
 RUN php --version
@@ -49,6 +49,20 @@ RUN mkdir -p /var/www/html/storage/logs \
 # Create SQLite database if it doesn't exist
 RUN touch database/database.sqlite
 
+# Configure Apache for Railway
+RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
+RUN echo 'Listen $PORT' >> /etc/apache2/ports.conf
+RUN echo '<VirtualHost *:$PORT>' > /etc/apache2/sites-available/000-default.conf
+RUN echo '    DocumentRoot /var/www/html/public' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    <Directory /var/www/html/public>' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '        AllowOverride All' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '        Require all granted' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '    </Directory>' >> /etc/apache2/sites-available/000-default.conf
+RUN echo '</VirtualHost>' >> /etc/apache2/sites-available/000-default.conf
+
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
+
 # Create startup script with debug
 RUN echo '#!/bin/bash' > /start.sh \
     && echo 'echo "=== INICIANDO SISTEMA GERADOR DE GRAFOS ==="' >> /start.sh \
@@ -66,10 +80,17 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
     && echo 'php artisan view:cache' >> /start.sh \
-    && echo 'echo "=== TESTANDO HEALTHCHECK ==="' >> /start.sh \
-    && echo 'php artisan route:list | grep health' >> /start.sh \
-    && echo 'echo "=== INICIANDO SERVIDOR ==="' >> /start.sh \
-    && echo 'php artisan serve --host 0.0.0.0 --port $PORT' >> /start.sh \
+    && echo 'echo "=== CONFIGURANDO APACHE ==="' >> /start.sh \
+    && echo 'echo "Listen $PORT" >> /etc/apache2/ports.conf' >> /start.sh \
+    && echo 'echo "<VirtualHost *:$PORT>" > /etc/apache2/sites-available/000-default.conf' >> /start.sh \
+    && echo 'echo "    DocumentRoot /var/www/html/public" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
+    && echo 'echo "    <Directory /var/www/html/public>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
+    && echo 'echo "        AllowOverride All" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
+    && echo 'echo "        Require all granted" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
+    && echo 'echo "    </Directory>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
+    && echo 'echo "</VirtualHost>" >> /etc/apache2/sites-available/000-default.conf' >> /start.sh \
+    && echo 'echo "=== INICIANDO APACHE ==="' >> /start.sh \
+    && echo 'apache2-foreground' >> /start.sh \
     && chmod +x /start.sh
 
 # Expose port from Railway
