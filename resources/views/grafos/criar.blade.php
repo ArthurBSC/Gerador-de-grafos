@@ -429,11 +429,11 @@
                                                id="quantidade_nos" 
                                                name="quantidade_nos" 
                                                min="2" 
-                                               max="20" 
+                                               max="26" 
                                                value="5" 
                                                required
                                                onchange="atualizarNos()">
-                                        <div class="form-text">Entre 2 e 20 nós</div>
+                                        <div class="form-text">Entre 2 e 26 nós (A-Z)</div>
                                     </div>
                                     
                                     <div class="col-md-6 d-flex align-items-end">
