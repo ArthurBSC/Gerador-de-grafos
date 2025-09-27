@@ -172,7 +172,7 @@
         
         <!-- Card de Login -->
         <div class="login-card">
-            <form method="POST" action="{{ route('login') }}" id="loginForm">
+            <form method="POST" action="{{ secure_url(route('login')) }}" id="loginForm">
                 @csrf
                 
                 <div class="mb-3">

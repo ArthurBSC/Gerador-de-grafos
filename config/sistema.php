@@ -18,7 +18,7 @@ return [
     */
 
     'limites' => [
-        'max_nos' => 50,
+        'max_nos' => 26,
         'max_arestas' => 500,
         'max_peso' => 1000,
         'min_peso' => -1000,
