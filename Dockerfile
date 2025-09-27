@@ -87,6 +87,10 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'php artisan key:generate --force' >> /start.sh \
     && echo 'echo "=== EXECUTANDO MIGRAÇÕES ==="' >> /start.sh \
     && echo 'php artisan migrate --force' >> /start.sh \
+    && echo 'echo "=== LIMPANDO CACHES ==="' >> /start.sh \
+    && echo 'php artisan cache:clear' >> /start.sh \
+    && echo 'php artisan view:clear' >> /start.sh \
+    && echo 'php artisan route:clear' >> /start.sh \
     && echo 'echo "=== CACHEANDO CONFIGURAÇÕES ==="' >> /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
