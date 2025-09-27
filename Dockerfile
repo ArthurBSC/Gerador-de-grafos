@@ -23,11 +23,11 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy composer files
+# Copy composer files first for better caching
 COPY composer.json composer.lock ./
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Copy application code
 COPY . .
@@ -40,17 +40,6 @@ RUN chown -R www-data:www-data /var/www/html \
 # Create SQLite database if it doesn't exist
 RUN touch database/database.sqlite
 
-# Run migrations
-RUN php artisan migrate --force
-
-# Generate application key
-RUN php artisan key:generate --force
-
-# Cache configuration
-RUN php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
@@ -59,8 +48,18 @@ RUN echo '<Directory /var/www/html>' >> /etc/apache2/apache2.conf \
     && echo '    AllowOverride All' >> /etc/apache2/apache2.conf \
     && echo '</Directory>' >> /etc/apache2/apache2.conf
 
+# Create startup script
+RUN echo '#!/bin/bash' > /start.sh \
+    && echo 'php artisan key:generate --force' >> /start.sh \
+    && echo 'php artisan migrate --force' >> /start.sh \
+    && echo 'php artisan config:cache' >> /start.sh \
+    && echo 'php artisan route:cache' >> /start.sh \
+    && echo 'php artisan view:cache' >> /start.sh \
+    && echo 'apache2-foreground' >> /start.sh \
+    && chmod +x /start.sh
+
 # Expose port 80
 EXPOSE 80
 
 # Start Apache
-CMD ["apache2-foreground"]
+CMD ["/start.sh"]
