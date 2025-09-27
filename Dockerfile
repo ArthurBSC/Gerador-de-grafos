@@ -63,7 +63,7 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
     && echo 'php artisan view:cache' >> /start.sh \
     && echo 'echo "=== INICIANDO SERVIDOR PHP ==="' >> /start.sh \
-    && echo 'php -S 0.0.0.0:$PORT -t public public/router.php' >> /start.sh \
+    && echo 'php -S 0.0.0.0:$PORT -t public' >> /start.sh \
     && chmod +x /start.sh
 
 # Expose port from Railway
