@@ -53,7 +53,36 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'echo "=== INICIANDO SISTEMA GERADOR DE GRAFOS ==="' >> /start.sh \
     && echo 'echo "Porta: $PORT"' >> /start.sh \
     && echo 'echo "=== CONFIGURANDO AMBIENTE ==="' >> /start.sh \
-    && echo 'cp .env.railway .env' >> /start.sh \
+    && echo 'cat > .env << EOF' >> /start.sh \
+    && echo 'APP_NAME="Sistema Gerador de Grafos"' >> /start.sh \
+    && echo 'APP_ENV=production' >> /start.sh \
+    && echo 'APP_KEY=' >> /start.sh \
+    && echo 'APP_DEBUG=false' >> /start.sh \
+    && echo 'APP_URL=https://gerador-de-grafos-production.up.railway.app' >> /start.sh \
+    && echo 'FORCE_HTTPS=true' >> /start.sh \
+    && echo '' >> /start.sh \
+    && echo 'LOG_CHANNEL=stack' >> /start.sh \
+    && echo 'LOG_LEVEL=error' >> /start.sh \
+    && echo '' >> /start.sh \
+    && echo 'DB_CONNECTION=sqlite' >> /start.sh \
+    && echo 'DB_DATABASE=/var/www/html/database/database.sqlite' >> /start.sh \
+    && echo '' >> /start.sh \
+    && echo 'BROADCAST_DRIVER=log' >> /start.sh \
+    && echo 'CACHE_DRIVER=file' >> /start.sh \
+    && echo 'FILESYSTEM_DISK=local' >> /start.sh \
+    && echo 'QUEUE_CONNECTION=sync' >> /start.sh \
+    && echo 'SESSION_DRIVER=file' >> /start.sh \
+    && echo 'SESSION_LIFETIME=120' >> /start.sh \
+    && echo '' >> /start.sh \
+    && echo 'MAIL_MAILER=log' >> /start.sh \
+    && echo 'MAIL_HOST=mailpit' >> /start.sh \
+    && echo 'MAIL_PORT=1025' >> /start.sh \
+    && echo 'MAIL_USERNAME=null' >> /start.sh \
+    && echo 'MAIL_PASSWORD=null' >> /start.sh \
+    && echo 'MAIL_ENCRYPTION=null' >> /start.sh \
+    && echo 'MAIL_FROM_ADDRESS="hello@example.com"' >> /start.sh \
+    && echo 'MAIL_FROM_NAME="${APP_NAME}"' >> /start.sh \
+    && echo 'EOF' >> /start.sh \
     && echo 'echo "=== GERANDO CHAVE ==="' >> /start.sh \
     && echo 'php artisan key:generate --force' >> /start.sh \
     && echo 'echo "=== EXECUTANDO MIGRAÇÕES ==="' >> /start.sh \
