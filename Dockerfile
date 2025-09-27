@@ -29,7 +29,8 @@ WORKDIR /var/www/html
 # Copy composer files first for better caching
 COPY composer.json ./
 
-# Update composer and install dependencies without lock file
+# Remove any existing composer.lock and update composer
+RUN rm -f composer.lock
 RUN composer self-update --no-interaction
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --ignore-platform-reqs
 
