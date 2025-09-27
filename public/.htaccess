@@ -28,7 +28,7 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# MIME Types
+# MIME Types - Forçar tipos corretos
 <IfModule mod_mime.c>
     AddType text/css .css
     AddType application/javascript .js
@@ -42,3 +42,32 @@
     AddType font/ttf .ttf
     AddType font/eot .eot
 </IfModule>
+
+# Forçar tipos MIME específicos
+<FilesMatch "\.(css)$">
+    ForceType text/css
+</FilesMatch>
+
+<FilesMatch "\.(js)$">
+    ForceType application/javascript
+</FilesMatch>
+
+<FilesMatch "\.(png)$">
+    ForceType image/png
+</FilesMatch>
+
+<FilesMatch "\.(jpg|jpeg)$">
+    ForceType image/jpeg
+</FilesMatch>
+
+<FilesMatch "\.(gif)$">
+    ForceType image/gif
+</FilesMatch>
+
+<FilesMatch "\.(svg)$">
+    ForceType image/svg+xml
+</FilesMatch>
+
+<FilesMatch "\.(ico)$">
+    ForceType image/x-icon
+</FilesMatch>
