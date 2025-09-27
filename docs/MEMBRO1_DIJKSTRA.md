@@ -1,16 +1,19 @@
-# 🔍 Algoritmo de Dijkstra - Guia de Apresentação
+# 🔍 MEMBRO 1: Algoritmo Dijkstra e Implementação Técnica
 
-## 🎯 **OBJETIVO DA APRESENTAÇÃO**
-Explicar de forma clara e didática o algoritmo de Dijkstra implementado no sistema, demonstrando conhecimento técnico e acadêmico.
+## 🎯 **SUA RESPONSABILIDADE**
+Você é responsável por explicar o **algoritmo de Dijkstra** em detalhes técnicos e acadêmicos.
+
+**⏱️ Tempo**: 7 minutos  
+**🎯 Foco**: Conceitos teóricos, implementação e complexidade
 
 ---
 
-## 📋 **ROTEIRO DE APRESENTAÇÃO (7 minutos)**
+## 📋 **ROTEIRO DE APRESENTAÇÃO**
 
 ### **🎬 1. INTRODUÇÃO AO ALGORITMO (1 minuto)**
 
 #### **O que falar:**
-> "O algoritmo de Dijkstra é um algoritmo guloso que encontra o caminho mínimo entre dois nós em um grafo com pesos não-negativos nas arestas. Foi desenvolvido por Edsger Dijkstra em 1959."
+> "O algoritmo de Dijkstra é um algoritmo guloso desenvolvido por Edsger Dijkstra em 1959. Ele encontra o caminho mínimo entre dois nós em um grafo com pesos não-negativos nas arestas."
 
 #### **Conceitos fundamentais:**
 - **Algoritmo Guloso**: Sempre escolhe a opção que parece melhor no momento
@@ -253,4 +256,4 @@ Arestas:
 
 ---
 
-**🎯 Guia completo para apresentar o algoritmo de Dijkstra com confiança e conhecimento!** 🚀📚✨
+**🎯 Seu guia completo para apresentar o algoritmo de Dijkstra com confiança e conhecimento!** 🚀📚✨
