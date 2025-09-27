@@ -22,13 +22,17 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [L]
 
-# Force MIME types - apenas ForceType
+# Force MIME types - específicos para Firefox
 <FilesMatch "\.css$">
-    ForceType text/css
+    ForceType "text/css; charset=utf-8"
+    Header set Content-Type "text/css; charset=utf-8"
+    Header set X-Content-Type-Options nosniff
 </FilesMatch>
 
 <FilesMatch "\.js$">
-    ForceType application/javascript
+    ForceType "application/javascript; charset=utf-8"
+    Header set Content-Type "application/javascript; charset=utf-8"
+    Header set X-Content-Type-Options nosniff
 </FilesMatch>
 
 <FilesMatch "\.png$">
