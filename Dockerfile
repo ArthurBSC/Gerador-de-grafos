@@ -1,5 +1,8 @@
-# Use PHP 8.1 with Nginx (mais estável para Railway)
-FROM php:8.1-fpm
+# Use PHP 8.1 CLI (mais simples e confiável)
+FROM php:8.1-cli
+
+# Verify PHP version
+RUN php --version
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -12,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     sqlite3 \
     libsqlite3-dev \
-    nginx \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -46,27 +48,6 @@ RUN mkdir -p /var/www/html/storage/logs \
 # Create SQLite database if it doesn't exist
 RUN touch database/database.sqlite
 
-# Configure Nginx
-RUN echo 'server {' > /etc/nginx/sites-available/default \
-    && echo '    listen $PORT;' >> /etc/nginx/sites-available/default \
-    && echo '    server_name localhost;' >> /etc/nginx/sites-available/default \
-    && echo '    root /var/www/html/public;' >> /etc/nginx/sites-available/default \
-    && echo '    index index.php;' >> /etc/nginx/sites-available/default \
-    && echo '    location / {' >> /etc/nginx/sites-available/default \
-    && echo '        try_files $uri $uri/ /index.php?$query_string;' >> /etc/nginx/sites-available/default \
-    && echo '    }' >> /etc/nginx/sites-available/default \
-    && echo '    location ~ \.php$ {' >> /etc/nginx/sites-available/default \
-    && echo '        fastcgi_pass 127.0.0.1:9000;' >> /etc/nginx/sites-available/default \
-    && echo '        fastcgi_index index.php;' >> /etc/nginx/sites-available/default \
-    && echo '        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;' >> /etc/nginx/sites-available/default \
-    && echo '        include fastcgi_params;' >> /etc/nginx/sites-available/default \
-    && echo '    }' >> /etc/nginx/sites-available/default \
-    && echo '    location ~ \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {' >> /etc/nginx/sites-available/default \
-    && echo '        expires 1y;' >> /etc/nginx/sites-available/default \
-    && echo '        add_header Cache-Control "public, immutable";' >> /etc/nginx/sites-available/default \
-    && echo '    }' >> /etc/nginx/sites-available/default \
-    && echo '}' >> /etc/nginx/sites-available/default
-
 # Create startup script
 RUN echo '#!/bin/bash' > /start.sh \
     && echo 'echo "=== INICIANDO SISTEMA GERADOR DE GRAFOS ==="' >> /start.sh \
@@ -80,17 +61,16 @@ RUN echo '#!/bin/bash' > /start.sh \
     && echo 'echo "=== CACHEANDO CONFIGURAÇÕES ==="' >> /start.sh \
     && echo 'php artisan config:cache' >> /start.sh \
     && echo 'php artisan route:cache' >> /start.sh \
-    && echo 'echo "=== CONFIGURANDO NGINX ==="' >> /start.sh \
-    && echo 'sed -i "s/\$PORT/$PORT/g" /etc/nginx/sites-available/default' >> /start.sh \
-    && echo 'echo "=== INICIANDO SERVIÇOS ==="' >> /start.sh \
-    && echo 'php-fpm -D' >> /start.sh \
-    && echo 'nginx -g "daemon off;"' >> /start.sh \
+    && echo 'php artisan view:cache' >> /start.sh \
+    && echo 'echo "=== INICIANDO SERVIDOR PHP ==="' >> /start.sh \
+    && echo 'cd public' >> /start.sh \
+    && echo 'php -S 0.0.0.0:$PORT -t .' >> /start.sh \
     && chmod +x /start.sh
 
 # Expose port from Railway
 EXPOSE $PORT
 
-# Start services
+# Start PHP server
 CMD ["/start.sh"]
 
 # Railway Deploy - Force Cache Invalidation
