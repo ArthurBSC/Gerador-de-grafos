@@ -41,8 +41,6 @@ class GrafoController extends Controller
      */
     public function index(): View
     {
-        $this->verificarAutenticacao();
-        
         try {
             $paginacao = 15;
             
@@ -222,7 +220,8 @@ class GrafoController extends Controller
     private function verificarAutenticacao(): void
     {
         if (!session('user_logged_in')) {
-            abort(redirect('/')->with('erro', 'Você precisa fazer login para acessar esta página.'));
+            redirect('/')->with('erro', 'Você precisa fazer login para acessar esta página.')->send();
+            exit;
         }
     }
 }
