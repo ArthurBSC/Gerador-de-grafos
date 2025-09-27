@@ -103,7 +103,6 @@ class GrafoService
     {
         $nos = $grafo->nos;
         
-        
         switch ($dados['modo_pesos']) {
             case 'automatico':
                 $this->criarArestasAutomaticas($grafo, $nos);
@@ -137,7 +136,7 @@ class GrafoService
                         'id_no_destino' => $destino->id,
                         'peso' => $peso,
                         'cor' => $peso > 0 ? '#2ecc71' : '#e74c3c',
-                        'largura' => config('sistema.visualizacao.largura_aresta_padrao')
+                        'largura' => 3
                     ]);
                 }
             }
