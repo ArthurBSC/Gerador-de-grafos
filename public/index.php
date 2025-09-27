@@ -41,8 +41,8 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
     }
 }
 
-// Para todas as outras requisições, usar o Laravel
-require_once __DIR__ . '/../bootstrap/app.php';
+// Para todas as outras requisições, usar o Laravel original
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = require_once __DIR__ . '/../bootstrap/app.php';
 
