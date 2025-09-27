@@ -103,11 +103,6 @@ class GrafoService
     {
         $nos = $grafo->nos;
         
-        Log::info('Criando arestas para grafo', [
-            'grafo_id' => $grafo->id,
-            'modo_pesos' => $dados['modo_pesos'],
-            'quantidade_nos' => $nos->count()
-        ]);
         
         switch ($dados['modo_pesos']) {
             case 'automatico':
@@ -120,7 +115,6 @@ class GrafoService
                     'conexoes_destino' => $dados['conexoes_destino'] ?? [],
                     'conexoes_peso' => $dados['conexoes_peso'] ?? []
                 ];
-                Log::info('Dados de conexões específicas', $conexoes);
                 $this->criarArestasEspecificas($grafo, $nos, $conexoes);
                 break;
         }
@@ -155,10 +149,6 @@ class GrafoService
      */
     private function criarArestasEspecificas(Grafo $grafo, $nos, array $conexoes): void
     {
-        Log::info('Iniciando criação de arestas específicas', [
-            'grafo_id' => $grafo->id,
-            'conexoes_recebidas' => $conexoes
-        ]);
         
         // Converter array de conexões para o formato correto
         $conexoesProcessadas = [];
@@ -169,11 +159,6 @@ class GrafoService
             $destinos = $conexoes['conexoes_destino'];
             $pesos = $conexoes['conexoes_peso'];
             
-            Log::info('Processando conexões do formulário', [
-                'origens' => $origens,
-                'destinos' => $destinos,
-                'pesos' => $pesos
-            ]);
             
             for ($i = 0; $i < count($origens); $i++) {
                 if (isset($origens[$i]) && isset($destinos[$i]) && isset($pesos[$i])) {
@@ -188,7 +173,6 @@ class GrafoService
             $conexoesProcessadas = $conexoes;
         }
         
-        Log::info('Conexões processadas', $conexoesProcessadas);
         
         $arestasCriadas = 0;
         foreach ($conexoesProcessadas as $conexao) {
@@ -196,13 +180,6 @@ class GrafoService
             $origem = $nos->values()->get($conexao['origem']);
             $destino = $nos->values()->get($conexao['destino']);
             
-            Log::info('Processando conexão', [
-                'indice_origem' => $conexao['origem'],
-                'indice_destino' => $conexao['destino'],
-                'peso' => $conexao['peso'],
-                'no_origem_encontrado' => $origem ? $origem->rotulo : 'NÃO ENCONTRADO',
-                'no_destino_encontrado' => $destino ? $destino->rotulo : 'NÃO ENCONTRADO'
-            ]);
             
             if ($origem && $destino) {
                     ArestaGrafo::create([
@@ -217,7 +194,6 @@ class GrafoService
             }
         }
         
-        Log::info('Arestas criadas', ['total' => $arestasCriadas]);
     }
 
     /**

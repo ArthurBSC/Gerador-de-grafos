@@ -5,14 +5,11 @@ return [
     |--------------------------------------------------------------------------
     | Configurações do Sistema Gerador de Grafos
     |--------------------------------------------------------------------------
-    |
-    | Configurações específicas do sistema de geração e visualização de grafos
-    |
     */
 
-    'versao' => env('SISTEMA_VERSAO', '2.0.0'),
-    'arquitetura' => env('SISTEMA_ARQUITETURA', 'Clean Code + SOLID + Laravel 9'),
-    'autor' => env('SISTEMA_AUTOR', 'Estrutura de Dados II'),
+    'versao' => '2.0.0',
+    'arquitetura' => 'Clean Code + SOLID + Laravel 9',
+    'autor' => 'Estrutura de Dados II',
 
     /*
     |--------------------------------------------------------------------------
@@ -21,48 +18,11 @@ return [
     */
 
     'limites' => [
-        'max_nos' => env('GRAFO_MAX_NOS', 50),
-        'max_arestas' => env('GRAFO_MAX_ARESTAS', 500),
+        'max_nos' => 50,
+        'max_arestas' => 500,
         'max_peso' => 1000,
         'min_peso' => -1000,
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Configurações de Visualização
-    |--------------------------------------------------------------------------
-    */
-
-    'visualizacao' => [
-        'cores_padrao' => env('GRAFO_CORES_PADRAO', true),
-        'animacoes' => env('GRAFO_ANIMACOES', true),
-        'tamanho_no_padrao' => 20,
-        'largura_aresta_padrao' => 2,
-        'fisica_habilitada' => true,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Configurações de Exportação
-    |--------------------------------------------------------------------------
-    */
-
-    'exportacao' => [
-        'formatos' => explode(',', env('EXPORTACAO_FORMATOS', 'json,csv,txt')),
-        'tamanho_maximo' => env('EXPORTACAO_MAX_SIZE', '10MB'),
-        'incluir_metadados' => true,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Configurações de Performance
-    |--------------------------------------------------------------------------
-    */
-
-    'performance' => [
-        'paginacao_padrao' => 15,
-    ],
-
 
     /*
     |--------------------------------------------------------------------------
@@ -84,5 +44,4 @@ return [
             '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3'
         ]
     ],
-
 ];
