@@ -54,6 +54,7 @@ if (preg_match('/\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$/', $uri
 
 // Se for o healthcheck
 if ($uri === '/health') {
+    http_response_code(200);
     header('Content-Type: text/plain');
     header('Cache-Control: no-cache');
     echo "OK";
