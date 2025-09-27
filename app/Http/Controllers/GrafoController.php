@@ -39,7 +39,7 @@ class GrafoController extends Controller
     /**
      * Lista todos os grafos com paginação otimizada
      */
-    public function index()
+    public function index(): View
     {
         try {
             $paginacao = 15;
@@ -50,23 +50,10 @@ class GrafoController extends Controller
             
             Log::info('LISTAGEM: Total de grafos carregados: ' . $grafos->count());
             
-            // Retornar JSON temporariamente para debug
-            return response()->json([
-                'status' => 'OK',
-                'message' => 'Lista de grafos carregada com sucesso!',
-                'timestamp' => now()->toISOString(),
-                'total_grafos' => $grafos->count(),
-                'grafos' => $grafos->items()
-            ]);
-            
-            // return view('grafos.indice', compact('grafos'));
+            return view('grafos.indice', compact('grafos'));
         } catch (\Exception $e) {
             Log::error('Erro ao listar grafos: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'ERROR',
-                'message' => $e->getMessage(),
-                'timestamp' => now()->toISOString()
-            ], 500);
+            return view('grafos.indice', ['grafos' => collect()]);
         }
     }
 
@@ -75,7 +62,6 @@ class GrafoController extends Controller
      */
     public function create(): View
     {
-        $this->verificarAutenticacao();
         return view('grafos.criar');
     }
 
@@ -84,7 +70,6 @@ class GrafoController extends Controller
      */
     public function store(StoreGrafoRequest $request): RedirectResponse
     {
-        $this->verificarAutenticacao();
         
         try {
             $dados = $request->validated();
@@ -112,7 +97,6 @@ class GrafoController extends Controller
      */
     public function show(int $id): View|RedirectResponse
     {
-        $this->verificarAutenticacao();
         
         try {
             $grafo = Grafo::with(['nos', 'arestas.noOrigem', 'arestas.noDestino'])
@@ -132,7 +116,6 @@ class GrafoController extends Controller
      */
     public function edit(int $id): View|RedirectResponse
     {
-        $this->verificarAutenticacao();
         
         try {
             $grafo = Grafo::with(['nos', 'arestas'])->findOrFail($id);
@@ -148,7 +131,6 @@ class GrafoController extends Controller
      */
     public function update(UpdateGrafoRequest $request, int $id): RedirectResponse
     {
-        $this->verificarAutenticacao();
         
         try {
             $grafo = Grafo::findOrFail($id);
@@ -227,14 +209,4 @@ class GrafoController extends Controller
     }
 
 
-    /**
-     * Verifica se o usuário está autenticado
-     */
-    private function verificarAutenticacao(): void
-    {
-        if (!session('user_logged_in')) {
-            redirect('/')->with('erro', 'Você precisa fazer login para acessar esta página.')->send();
-            exit;
-        }
-    }
 }

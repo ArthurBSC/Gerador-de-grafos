@@ -15,12 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // Página inicial com login
 Route::get('/', function () {
-    return response()->json([
-        'status' => 'OK',
-        'message' => 'Sistema funcionando!',
-        'timestamp' => now()->toISOString(),
-        'next_step' => 'Acesse /grafos para ver a lista de grafos'
-    ]);
+    return view('welcome');
 })->name('home');
 
 // Processamento do login
@@ -28,16 +23,18 @@ Route::post('/login', function () {
     $email = request('email');
     $password = request('password');
     
+    // Debug
+    \Log::info('Tentativa de login', ['email' => $email, 'password_length' => strlen($password)]);
+    
     // Validação simples com credenciais hardcoded
     if ($email === 'admin@grafos.com' && $password === 'admin123') {
         // Simular sessão de login
         session(['user_logged_in' => true, 'user_email' => $email]);
+        \Log::info('Login bem-sucedido', ['email' => $email]);
         return redirect()->route('grafos.index')->with('sucesso', 'Login realizado com sucesso!');
     } else {
-        return response()->json([
-            'status' => 'ERROR',
-            'message' => 'Email ou senha incorretos!'
-        ], 401);
+        \Log::warning('Login falhou', ['email' => $email, 'password' => $password]);
+        return back()->with('erro', 'Email ou senha incorretos!');
     }
 })->name('login');
 
