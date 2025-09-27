@@ -48,8 +48,9 @@ RUN mkdir -p /var/www/html/storage/logs \
 # Create SQLite database if it doesn't exist
 RUN touch database/database.sqlite
 
-# Enable Apache mod_rewrite
+# Enable Apache modules
 RUN a2enmod rewrite
+RUN a2enmod headers
 
 # Configure Apache for Railway
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf

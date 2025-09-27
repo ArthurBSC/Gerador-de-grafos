@@ -22,38 +22,31 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [L]
 
-# Force MIME types - mais específico
+# Force MIME types - apenas ForceType
 <FilesMatch "\.css$">
     ForceType text/css
-    Header set Content-Type "text/css"
 </FilesMatch>
 
 <FilesMatch "\.js$">
     ForceType application/javascript
-    Header set Content-Type "application/javascript"
 </FilesMatch>
 
 <FilesMatch "\.png$">
     ForceType image/png
-    Header set Content-Type "image/png"
 </FilesMatch>
 
 <FilesMatch "\.(jpg|jpeg)$">
     ForceType image/jpeg
-    Header set Content-Type "image/jpeg"
 </FilesMatch>
 
 <FilesMatch "\.gif$">
     ForceType image/gif
-    Header set Content-Type "image/gif"
 </FilesMatch>
 
 <FilesMatch "\.svg$">
     ForceType image/svg+xml
-    Header set Content-Type "image/svg+xml"
 </FilesMatch>
 
 <FilesMatch "\.ico$">
     ForceType image/x-icon
-    Header set Content-Type "image/x-icon"
 </FilesMatch>
