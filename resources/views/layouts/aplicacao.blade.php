@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- CSS Global -->
-    <link rel="stylesheet" href="{{ secure_asset('css/app.css.php') }}">
-    <link rel="stylesheet" href="{{ secure_asset('css/grafos.css.php') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('css/grafos.css') }}">
     
     <!-- Vis.js Network -->
     <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
