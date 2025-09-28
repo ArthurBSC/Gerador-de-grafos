@@ -1,122 +1,166 @@
 # Arthur - Algoritmo Dijkstra
 
 ## O que vou explicar
-Vou explicar como funciona o algoritmo de Dijkstra e mostrar nosso código.
+Vou explicar como funciona o algoritmo de Dijkstra e mostrar nosso código implementado em PHP.
 
-**Tempo**: 7 minutos
+**Tempo**: 8 minutos
 
 ## 1. Introdução (1 minuto)
 
 **O que falar:**
-"Olha, vou explicar como funciona o algoritmo de Dijkstra. É tipo um GPS para grafos - ele encontra o caminho mais curto entre dois pontos."
+"Olha, vou explicar como funciona o algoritmo de Dijkstra. É tipo um GPS para grafos - ele encontra o caminho mais curto entre dois pontos. Nosso código tem apenas 300 linhas e está totalmente comentado."
 
 **Pontos importantes:**
-- Sempre escolhe o caminho que parece melhor
+- Sempre escolhe o caminho que parece melhor (algoritmo guloso)
 - Funciona só com pesos positivos
 - Tempo cresce com o quadrado do número de nós
+- Implementação simples e eficiente
 
 ---
 
 ## 2. Como funciona (2 minutos)
 
-**O que preciso:**
+**O que preciso - 4 estruturas de dados:**
 ```php
 $distancia = [];      // Menor distância para cada ponto
-$anterior = [];       // Ponto anterior no caminho
+$anterior = [];       // Ponto anterior no caminho  
 $visitados = [];      // Pontos já analisados
 $fila = [];          // Lista de pontos para analisar
 ```
 
-**Passo a passo:**
-1. Começar: ponto inicial = 0, outros = infinito
-2. Escolher: pegar o ponto com menor distância
-3. Atualizar: verificar se consigo chegar nos vizinhos por um caminho melhor
-4. Repetir: continuar até analisar todos os pontos
-5. Montar: construir o caminho do destino até a origem
+**Passo a passo do algoritmo:**
+1. **Inicializar**: ponto inicial = 0, outros = infinito
+2. **Escolher**: pegar o ponto com menor distância da fila
+3. **Relaxar**: verificar se consigo chegar nos vizinhos por um caminho melhor
+4. **Atualizar**: se encontrou caminho melhor, atualizar distância e anterior
+5. **Repetir**: continuar até analisar todos os pontos ou chegar ao destino
+6. **Reconstruir**: construir o caminho do destino até a origem
 
 ---
 
-## 3. Nosso código (3 minutos)
+## 3. Nosso código explicado (4 minutos)
 
-**Vou mostrar**: `app/Services/DijkstraService.php`
+**Vou mostrar**: `app/Services/DijkstraService.php` - **300 linhas totalmente comentadas**
 
+### **ETAPA 1: Preparar os dados**
 ```php
-public function calcularCaminhoMinimo(Grafo $grafo, int $origem, int $destino): array
-{
-    $nos = $grafo->nos->keyBy('id');
-    $arestas = $grafo->arestas;
+// Buscar todos os nós do grafo e organizar por ID
+$nos = $grafo->nos->keyBy('id');
+
+// Buscar todas as arestas (conexões) do grafo  
+$arestas = $grafo->arestas;
+```
+
+### **ETAPA 2: Inicializar estruturas de dados**
+```php
+// $distancia = array que guarda a menor distância até cada nó
+$distancia = [];
+
+// $anterior = array que guarda qual nó veio antes de cada nó no caminho
+$anterior = [];
+
+// $visitados = array que marca quais nós já foram processados
+$visitados = [];
+```
+
+### **ETAPA 3: Configurar distâncias iniciais**
+```php
+// Para cada nó no grafo, definir distância inicial
+foreach ($nos as $id => $no) {
+    // Se for o nó de origem, distância é 0 (já estamos lá)
+    // Se não for origem, distância é infinito (ainda não sabemos como chegar)
+    $distancia[$id] = $id === $origem ? 0 : PHP_FLOAT_MAX;
     
-    // Estruturas de dados para o algoritmo
-    $distancia = [];
-    $anterior = [];
-    $visitados = [];
+    // Inicialmente, nenhum nó tem um nó anterior
+    $anterior[$id] = null;
+}
+
+// Criar fila de prioridade começando com o nó de origem
+$fila = [$origem => 0];
+```
+
+### **ETAPA 4: Algoritmo principal de Dijkstra**
+```php
+// Enquanto houver nós na fila para processar
+while (!empty($fila)) {
+    // Encontrar o nó com menor distância na fila
+    $atual = array_keys($fila, min($fila))[0];
     
-    // Inicializar distâncias
-    foreach ($nos as $id => $no) {
-        $distancia[$id] = $id === $origem ? 0 : PHP_FLOAT_MAX;
-        $anterior[$id] = null;
-    }
+    // Remover o nó atual da fila (já vamos processá-lo)
+    unset($fila[$atual]);
     
-    $fila = [$origem => 0];
+    // Marcar o nó atual como visitado
+    $visitados[$atual] = true;
     
-    // Algoritmo principal
-    while (!empty($fila)) {
-        // Encontrar nó com menor distância
-        $atual = array_keys($fila, min($fila))[0];
-        unset($fila[$atual]);
-        $visitados[$atual] = true;
-        
-        // Parar se chegou ao destino
-        if ($atual === $destino) break;
-        
-        // Relaxar arestas saindo do nó atual
-        foreach ($arestas as $aresta) {
-            if ($aresta->id_no_origem == $atual && 
-                !isset($visitados[$aresta->id_no_destino])) {
+    // Se chegamos ao destino, podemos parar
+    if ($atual === $destino) break;
+    
+    // Para cada aresta (conexão) no grafo
+    foreach ($arestas as $aresta) {
+        // Verificar se a aresta sai do nó atual e vai para um nó não visitado
+        if ($aresta->id_no_origem == $atual && !isset($visitados[$aresta->id_no_destino])) {
+            
+            // Calcular nova distância: distância atual + peso da aresta
+            $novaDistancia = $distancia[$atual] + abs($aresta->peso);
+            
+            // Se a nova distância for menor que a distância conhecida
+            if ($novaDistancia < $distancia[$aresta->id_no_destino]) {
+                // Atualizar a distância para o nó de destino
+                $distancia[$aresta->id_no_destino] = $novaDistancia;
                 
-                $novaDistancia = $distancia[$atual] + abs($aresta->peso);
+                // Marcar que para chegar neste nó, veio do nó atual
+                $anterior[$aresta->id_no_destino] = $atual;
                 
-                // Se encontrou caminho melhor, atualizar
-                if ($novaDistancia < $distancia[$aresta->id_no_destino]) {
-                    $distancia[$aresta->id_no_destino] = $novaDistancia;
-                    $anterior[$aresta->id_no_destino] = $atual;
-                    $fila[$aresta->id_no_destino] = $novaDistancia;
-                }
+                // Adicionar o nó de destino na fila para processar depois
+                $fila[$aresta->id_no_destino] = $novaDistancia;
             }
         }
     }
-    
-    // Reconstruir caminho
-    $caminho = [];
-    $atual = $destino;
-    
-    while ($atual !== null) {
-        array_unshift($caminho, $atual);
-        $atual = $anterior[$atual];
-    }
-    
-    return [
-        'caminho' => $caminho,
-        'distancia' => $distancia[$destino],
-        'detalhes' => [
-            'origem' => $nos[$origem]->rotulo ?? "Nó $origem",
-            'destino' => $nos[$destino]->rotulo ?? "Nó $destino",
-            'total_nos' => count($caminho)
-        ]
-    ];
 }
 ```
 
+### **ETAPA 5: Reconstruir o caminho**
+```php
+// Criar array para guardar o caminho final
+$caminho = [];
+
+// Começar pelo nó de destino
+$atual = $destino;
+
+// Voltar pelo caminho até chegar na origem
+while ($atual !== null) {
+    // Adicionar o nó atual no início do caminho
+    array_unshift($caminho, $atual);
+    
+    // Ir para o nó anterior no caminho
+    $atual = $anterior[$atual];
+}
+```
+
+### **ETAPA 6: Retornar resultado formatado**
+```php
+return [
+    'caminho' => $caminho,                    // Array com IDs dos nós no caminho
+    'distancia' => $distancia[$destino],     // Distância total até o destino
+    'detalhes' => [
+        'origem' => $nos[$origem]->rotulo ?? "Nó $origem",      // Nome do nó de origem
+        'destino' => $nos[$destino]->rotulo ?? "Nó $destino",   // Nome do nó de destino
+        'total_nos' => count($caminho)                          // Quantos nós tem no caminho
+    ]
+];
+```
+
 **O que nosso código faz:**
-- Começamos: ponto inicial = 0, outros = infinito
-- Escolhemos: sempre o ponto com menor distância
-- Atualizamos: distâncias quando encontramos caminho melhor
-- Paramos: quando chegamos ao destino
-- Montamos: o caminho usando os pontos anteriores
+- **Prepara**: busca nós e arestas do grafo
+- **Inicializa**: cria estruturas de dados necessárias
+- **Configura**: define distâncias iniciais (origem=0, outros=∞)
+- **Executa**: algoritmo principal escolhendo sempre o menor
+- **Relaxa**: atualiza distâncias quando encontra caminho melhor
+- **Reconstrói**: monta o caminho final do destino até origem
 
 ---
 
-## 4. Exemplo prático (1 minuto)
+## 4. Exemplo prático passo a passo (1 minuto)
 
 **Grafo de exemplo:**
 ```
@@ -127,36 +171,55 @@ A --4-- B --5-- D
 C --3-- E --1-- F
 ```
 
-**Como executa:**
-1. Inicialização: A=0, outros=∞
-2. Processar A: B=4, C=2
-3. Processar C: E=5
-4. Processar B: D=9, E=5 (melhor)
-5. Processar E: F=6
-6. Resultado: A→C→E→F, distância=6
+**Execução detalhada:**
+1. **Inicialização**: A=0, B=∞, C=∞, D=∞, E=∞, F=∞
+2. **Processar A**: B=4, C=2 (atualizar distâncias)
+3. **Processar C**: E=5 (C+3=2+3=5)
+4. **Processar B**: D=9 (B+5=4+5=9), E=5 (B+1=4+1=5, mas já temos E=5)
+5. **Processar E**: F=6 (E+1=5+1=6)
+6. **Resultado**: A→C→E→F, distância=6
 
-## Perguntas que podem fazer
+**Por que A→C→E→F e não A→B→E→F?**
+- A→B→E→F = 4+1+1 = 6 (mesma distância)
+- A→C→E→F = 2+3+1 = 6 (mesma distância)
+- Ambos são ótimos!
+
+---
+
+## 5. Perguntas que podem fazer
 
 **P: "Por que não funciona com pesos negativos?"**
-**R:** "Com pesos negativos, o algoritmo pode escolher um caminho que parece melhor, mas na verdade não é. Ele não consegue voltar atrás para reconsiderar."
+**R:** "Com pesos negativos, o algoritmo pode escolher um caminho que parece melhor, mas na verdade não é. Ele não consegue voltar atrás para reconsiderar. Por isso usamos apenas pesos positivos."
 
 **P: "Como vocês implementaram a fila de prioridade?"**
-**R:** "Usamos um array simples. A chave é o ID do nó e o valor é a distância. Para encontrar o mínimo, usamos `min()` do PHP."
+**R:** "Usamos um array simples do PHP. A chave é o ID do nó e o valor é a distância. Para encontrar o mínimo, usamos `min()` do PHP. É simples mas eficiente para grafos pequenos."
 
-**P: "Qual a complexidade?"**
-**R:** "O(V²) onde V é o número de vértices. Usamos array simples, mas funciona bem para grafos pequenos."
+**P: "Qual a complexidade do algoritmo?"**
+**R:** "O(V²) onde V é o número de vértices. Usamos array simples, mas funciona bem para grafos pequenos. Para grafos maiores, usaríamos uma heap binária."
 
-## Dados de exemplo
+**P: "Por que vocês param quando chegam ao destino?"**
+**R:** "Porque já encontramos o caminho mínimo até o destino. Não precisamos processar todos os outros nós, economizando tempo."
+
+**P: "Como vocês garantem que o caminho é realmente mínimo?"**
+**R:** "O algoritmo sempre escolhe o nó com menor distância conhecida. Isso garante que quando chegamos ao destino, já temos o caminho mínimo."
+
+---
+
+## 6. Dados de exemplo para demonstração
 ```
 Nós: A, B, C, D, E, F
 Arestas:
 - A → B (peso: 4)
-- A → C (peso: 2)
+- A → C (peso: 2)  
 - B → D (peso: 5)
-- C → D (peso: 1)
+- B → E (peso: 1)
 - C → E (peso: 3)
 - D → F (peso: 2)
 - E → F (peso: 1)
 ```
 
-**Resultado**: A→C→E→F, distância=6
+**Resultado esperado**: A→C→E→F, distância=6
+
+**Outros caminhos possíveis**:
+- A→B→E→F = 4+1+1 = 6 (também ótimo)
+- A→B→D→F = 4+5+2 = 11 (não ótimo)
