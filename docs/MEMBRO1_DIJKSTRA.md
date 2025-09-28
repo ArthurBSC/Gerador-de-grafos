@@ -95,15 +95,35 @@ foreach ($nos as $id => $no) {
 $fila = [$origem => 0];
 ```
 
-**O que significa cada símbolo:**
-- **`foreach`** = "para cada" (como dizer "para cada ponto na lista")
-- **`as $id => $no`** = "pegue o número do ponto e o ponto" (como: ponto 1, ponto 2)
-- **`$distancia[$id]`** = "na lista distância, na posição do ponto"
-- **`===`** = "é exatamente igual a" (comparação)
-- **`?`** = "se for verdade, faça isso"
-- **`:`** = "senão, faça aquilo"
-- **`PHP_FLOAT_MAX`** = "número muito grande" (infinito)
-- **`null`** = "nada" (vazio)
+**EXPLICAÇÃO LINHA POR LINHA:**
+
+**Linha 1: `foreach ($nos as $id => $no)`**
+- `foreach` = "para cada" (repita para cada item)
+- `$nos` = nossa lista de todos os pontos do grafo
+- `as $id => $no` = "pegue o número do ponto ($id) e o ponto ($no)"
+- **Significa**: "Para cada ponto na lista, faça o seguinte"
+
+**Linha 2: `$distancia[$id] = $id === $origem ? 0 : PHP_FLOAT_MAX;`**
+- `$distancia[$id]` = "na lista distância, na posição do ponto"
+- `=` = "recebe" (atribuir valor)
+- `$id === $origem` = "o número do ponto é exatamente igual ao ponto de origem"
+- `?` = "se for verdade, faça isso"
+- `0` = "zero" (distância zero)
+- `:` = "senão, faça aquilo"
+- `PHP_FLOAT_MAX` = "número muito grande" (infinito)
+- **Significa**: "Se for o ponto de origem, coloque distância 0, senão coloque infinito"
+
+**Linha 3: `$anterior[$id] = null;`**
+- `$anterior[$id]` = "na lista anterior, na posição do ponto"
+- `=` = "recebe" (atribuir valor)
+- `null` = "nada" (vazio)
+- **Significa**: "Marque que este ponto não tem ponto anterior ainda"
+
+**Linha 4: `$fila = [$origem => 0];`**
+- `$fila` = nossa lista de pontos para analisar depois
+- `=` = "recebe" (atribuir valor)
+- `[$origem => 0]` = "lista com o ponto de origem tendo distância 0"
+- **Significa**: "Crie uma lista começando com o ponto de origem e distância 0"
 
 ### **ETAPA 4: Algoritmo principal (o coração do Dijkstra)**
 ```php
@@ -145,6 +165,85 @@ while (!empty($fila)) {
 }
 ```
 
+**EXPLICAÇÃO LINHA POR LINHA:**
+
+**Linha 1: `while (!empty($fila))`**
+- `while` = "enquanto" (repita enquanto for verdade)
+- `!empty` = "não está vazio" (tem alguma coisa na lista)
+- `$fila` = nossa lista de pontos para analisar
+- **Significa**: "Continue repetindo enquanto ainda tiver pontos na lista para analisar"
+
+**Linha 2: `$atual = array_keys($fila, min($fila))[0];`**
+- `$atual` = variável que vai guardar qual ponto estamos analisando agora
+- `array_keys` = "pegue as chaves da lista" (os números dos pontos)
+- `min($fila)` = "menor valor da lista" (menor distância)
+- `[0]` = "pegue o primeiro" (primeiro ponto com menor distância)
+- **Significa**: "Pegue o ponto que tem a menor distância e coloque na variável $atual"
+
+**Linha 3: `unset($fila[$atual]);`**
+- `unset` = "remover da lista"
+- `$fila[$atual]` = "na lista fila, na posição do ponto atual"
+- **Significa**: "Tire este ponto da lista porque já vamos analisá-lo"
+
+**Linha 4: `$visitados[$atual] = true;`**
+- `$visitados` = nossa lista que marca quais pontos já olhamos
+- `[$atual]` = "na posição do ponto atual"
+- `= true` = "marque como verdadeiro" (já olhei)
+- **Significa**: "Marque na lista que já olhei este ponto"
+
+**Linha 5: `if ($atual === $destino) break;`**
+- `if` = "se" (condição)
+- `$atual === $destino` = "o ponto atual é exatamente igual ao destino"
+- `break` = "pare aqui" (sair do loop)
+- **Significa**: "Se chegamos onde queríamos, pare de analisar"
+
+**Linha 6: `foreach ($arestas as $aresta)`**
+- `foreach` = "para cada" (repita para cada item)
+- `$arestas` = nossa lista de todas as linhas do grafo
+- `as $aresta` = "chame cada linha de $aresta"
+- **Significa**: "Para cada linha no grafo, faça o seguinte"
+
+**Linha 7: `if ($aresta->id_no_origem == $atual && !isset($visitados[$aresta->id_no_destino]))`**
+- `$aresta->id_no_origem` = "o número do ponto de onde a linha sai"
+- `== $atual` = "é igual ao ponto que estamos analisando"
+- `&&` = "e também" (duas condições devem ser verdadeiras)
+- `!isset` = "não existe na lista"
+- `$visitados[$aresta->id_no_destino]` = "na lista visitados, na posição do ponto de destino"
+- **Significa**: "Se a linha sai do ponto atual E o ponto de destino ainda não foi visitado"
+
+**Linha 8: `$novaDistancia = $distancia[$atual] + abs($aresta->peso);`**
+- `$novaDistancia` = variável que vai guardar a nova distância calculada
+- `$distancia[$atual]` = "na lista distância, na posição do ponto atual" (distância até aqui)
+- `+` = "mais" (somar)
+- `abs($aresta->peso)` = "valor absoluto do peso da linha" (sempre positivo)
+- **Significa**: "Calcule a nova distância: distância até aqui + peso da linha"
+
+**Linha 9: `if ($novaDistancia < $distancia[$aresta->id_no_destino])`**
+- `$novaDistancia` = a distância que acabamos de calcular
+- `<` = "menor que"
+- `$distancia[$aresta->id_no_destino]` = "na lista distância, na posição do ponto de destino"
+- **Significa**: "Se a nova distância for menor que a distância que já tínhamos"
+
+**Linha 10: `$distancia[$aresta->id_no_destino] = $novaDistancia;`**
+- `$distancia[$aresta->id_no_destino]` = "na lista distância, na posição do ponto de destino"
+- `=` = "recebe" (atribuir valor)
+- `$novaDistancia` = a nova distância que calculamos
+- **Significa**: "Atualize a distância do ponto de destino com a nova distância"
+
+**Linha 11: `$anterior[$aresta->id_no_destino] = $atual;`**
+- `$anterior` = nossa lista que guarda de onde viemos para chegar em cada ponto
+- `[$aresta->id_no_destino]` = "na posição do ponto de destino"
+- `=` = "recebe" (atribuir valor)
+- `$atual` = o ponto que estamos analisando agora
+- **Significa**: "Marque que para chegar no ponto de destino, viemos do ponto atual"
+
+**Linha 12: `$fila[$aresta->id_no_destino] = $novaDistancia;`**
+- `$fila` = nossa lista de pontos para analisar depois
+- `[$aresta->id_no_destino]` = "na posição do ponto de destino"
+- `=` = "recebe" (atribuir valor)
+- `$novaDistancia` = a nova distância calculada
+- **Significa**: "Adicione o ponto de destino na lista para analisar depois, com sua nova distância"
+
 **O que significa cada símbolo:**
 - **`while`** = "enquanto" (repita enquanto for verdade)
 - **`!empty`** = "não está vazio" (tem alguma coisa)
@@ -173,9 +272,36 @@ while ($atual !== null) {
 }
 ```
 
-**O que significa:**
-- **`array_unshift`** = "adicionar no início da lista"
-- **`!== null`** = "não é vazio" (ainda tem ponto anterior)
+**EXPLICAÇÃO LINHA POR LINHA:**
+
+**Linha 1: `$caminho = [];`**
+- `$caminho` = variável que vai guardar a lista final do caminho
+- `=` = "recebe" (atribuir valor)
+- `[]` = "lista vazia"
+- **Significa**: "Crie uma lista vazia para guardar o caminho final"
+
+**Linha 2: `$atual = $destino;`**
+- `$atual` = variável que guarda qual ponto estamos analisando agora
+- `=` = "recebe" (atribuir valor)
+- `$destino` = o ponto onde queríamos chegar
+- **Significa**: "Comece pelo ponto de destino"
+
+**Linha 3: `while ($atual !== null)`**
+- `while` = "enquanto" (repita enquanto for verdade)
+- `$atual !== null` = "o ponto atual não é vazio" (ainda tem ponto anterior)
+- **Significa**: "Continue repetindo enquanto ainda tiver ponto anterior"
+
+**Linha 4: `array_unshift($caminho, $atual);`**
+- `array_unshift` = "adicionar no início da lista"
+- `$caminho` = nossa lista do caminho final
+- `$atual` = o ponto que estamos analisando agora
+- **Significa**: "Adicione o ponto atual no início da lista do caminho"
+
+**Linha 5: `$atual = $anterior[$atual];`**
+- `$atual` = variável que guarda qual ponto estamos analisando agora
+- `=` = "recebe" (atribuir valor)
+- `$anterior[$atual]` = "na lista anterior, na posição do ponto atual"
+- **Significa**: "Vá para o ponto anterior no caminho"
 
 ### **ETAPA 6: Retornar resultado formatado**
 ```php
